@@ -12,7 +12,7 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    private final String[] publicPages = new String[]{"/**", "/static/**/**"};
+    private final String[] publicPages = new String[]{"/**", "/svg/**"};
     private final String[] privatePages = new String[]{"/admin/**"};
     private final String[] noCSRFProtectionPages = new String[]{};
 

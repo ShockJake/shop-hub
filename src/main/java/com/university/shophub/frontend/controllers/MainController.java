@@ -14,4 +14,14 @@ public class MainController {
     public String adminPage(Model model) {
         return "index";
     }
+
+    @RequestMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @RequestMapping("/error")
+    public String errorPage(Model model) {
+        return "error";
+    }
 }
