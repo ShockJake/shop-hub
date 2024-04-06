@@ -9,19 +9,4 @@ public class MainController {
 
     @RequestMapping("/")
     public String indexPage(Model model) { return "index"; }
-
-    @RequestMapping("/admin/")
-    public String adminPage(Model model) {
-        return "index";
-    }
-
-    @RequestMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-    @RequestMapping("/error")
-    public String errorPage(Model model) {
-        return "error";
-    }
 }
