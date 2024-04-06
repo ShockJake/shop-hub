@@ -32,9 +32,10 @@ Where you can add:
 - Endpoints with no CSRF protection
 
 ### Database
+Link to MongoDB Configuration: <https://medium.com/mongoaudit/how-to-enable-authentication-on-mongodb-b9e8a924efac>
 
 - install [MongoDB](https://www.mongodb.com/docs/manual/installation/) and [mongosh](https://www.mongodb.com/docs/mongodb-shell/install/)
-- Run `mongod`
+- Run `mongod --port 27017`
 
 - run `mongosh localhost:27017`
 
@@ -49,9 +50,9 @@ use shophub_db
 ```mongodb-json 
  db.createUser(
   {
-    user: "shophub_client",
+    user: "shophub_db_client",
     pwd: "secred_password",
-    roles: [ { role: "userAdmin", db: "shophub_db" } ]
+    roles: [ { role: "readWrite", db: "shophub_db" } ]
   }
  )
 ```
