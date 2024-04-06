@@ -21,7 +21,7 @@ public class ShopHubUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final com.university.shophub.backend.models.User user =
-                Optional.ofNullable(userRepository.findByUserName(username))
+                Optional.ofNullable(userRepository.findByName(username))
                         .orElseThrow(() -> new UsernameNotFoundException(username));
         return User
                 .withUsername(user.getEmail())
