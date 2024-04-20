@@ -1,12 +1,18 @@
 package com.university.shophub.frontend.controllers;
 
+import com.university.shophub.backend.services.CategoryService;
+import com.university.shophub.backend.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class MainController {
+public record MainController(ProductService productService, CategoryService categoryService) {
 
-    @RequestMapping("/")
-    public String indexPage(Model model) { return "index"; }
+    @RequestMapping({"/", "/home"})
+    public String indexPage(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("topProducts", productService.getAllProducts());
+        return "index";
+    }
 }

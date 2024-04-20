@@ -15,13 +15,12 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-
     @Id
     private Long id;
     private String name;
     private String description;
     private Long categoryId;
     private BigDecimal price;
-    private Binary image;
+    private String imageUrl;
     private Map<String, String> technicalDetails;
 }

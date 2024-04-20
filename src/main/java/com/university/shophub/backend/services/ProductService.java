@@ -35,4 +35,8 @@ public record ProductService(ProductRepository productRepository, CategoryServic
     public List<Product> getProductByCategory(String category) {
         return productRepository.findByCategoryId(categoryService.getCategoryByName(category).getId());
     }
+
+    public void saveAll(List<Product> initialProducts) {
+        initialProducts.forEach(product -> productRepository.save(product));
+    }
 }

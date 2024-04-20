@@ -31,4 +31,8 @@ public record CategoryService(CategoryRepository categoryRepository) {
     public void deleteCategoryById(Long categoryId) {
         categoryRepository.deleteById(categoryId);
     }
+
+    public void saveAll(List<Category> initialCategories) {
+        initialCategories.forEach(category -> categoryRepository.save(category));
+    }
 }

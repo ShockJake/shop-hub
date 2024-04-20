@@ -64,12 +64,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img src="https://via.placeholder.com/400" class="img-fluid" alt="Product Image">
+                <img th:src="${product.imageUrl}" class="img-fluid" alt="Product Image">
             </div>
             <div class="col-md-6">
-                <h2>Product Name</h2>
-                <p class="lead">Product Description goes here.</p>
-                <h3 class="text-primary">$99.99</h3>
+                <h2 th:text="${product.name}"></h2>
+                <p class="lead" th:text="${product.description}">Product Description goes here.</p>
+                <h3 class="text-primary" th:text="${product.price} + '$'"></h3>
                 <p>Availability: <span class="text-success">In Stock</span></p>
                 <div class="mb-3">
                     <label for="quantity" class="form-label">Quantity</label>
@@ -81,35 +81,14 @@
         <div class="row mt-5">
             <div class="col-md-6">
                 <h3>About this item:</h3>
-                <p class="product-description">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-                    roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
-                    McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more
-                    obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the
-                    word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections
-                    1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-                    written in 45 BC. This book is a treatise on the theory of ethics, very popular during the
-                    Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-                    section 1.10.32.
-
-                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-                    Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in
-                    their exact original form, accompanied by English versions from the 1914 translation by H.
-                    Rackham.</p>
+                <p class="product-description" th:text="${product.description}"></p>
                 <h3>Technical Details:</h3>
                 <p class="product-technical"></p>
                 <table class="table table-striped border">
                     <tbody>
-                    <tr>
-                        <td>Info1</td>
-                        <td>Details1</td>
-                    </tr>
-                    <tr>
-                        <td>Info2</td>
-                        <td>Details2</td>
-                    </tr>
-                    <tr>
-                        <td>Info3</td>
-                        <td>Details3</td>
+                    <tr th:each="detail : ${product.technicalDetails}">
+                        <td th:text="${detail.key}"></td>
+                        <td th:text="${detail.value}"></td>
                     </tr>
                     </tbody>
                 </table>

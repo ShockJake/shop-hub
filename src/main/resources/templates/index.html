@@ -31,12 +31,7 @@
                         Products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Books</a></li>
-                        <li><a class="dropdown-item" href="#">Clothes</a></li>
-                        <li><a class="dropdown-item" href="#">For Kids</a></li>
-                        <li><a class="dropdown-item" href="#">Garden</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Current offers</a></li>
+                        <li th:each="category: ${categories}"><a class="dropdown-item" href="#" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -68,14 +63,18 @@
 <section class="products-section">
     <div class="container">
         <h2 class="text mb-4">Today's Hot Deals: </h2>
-        <div class="row">
+        <div class="row" th:each="product: ${topProducts}">
             <div class="col-md-4">
                 <div class="card">
-                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Product Image">
+                    <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image">
                     <div class="card-body">
-                        <h5 class="card-title">Product Name</h5>
-                        <p class="card-text">Product Description</p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <h5 class="card-title" th:text="${product.name}"></h5>
+                        <p class="card-text" th:text="${product.description}">Product Description</p>
+                        <h5 class="card-title" th:text="${product.price} + '$'"></h5>
+                        <div class="row">
+                            <a href="#" th:href="'/product/' + ${product.id}" class="btn btn-primary">Go to product</a>
+                            <a href="#" class="btn btn-warning">Add to Cart</a>
+                        </div>
                     </div>
                 </div>
             </div>

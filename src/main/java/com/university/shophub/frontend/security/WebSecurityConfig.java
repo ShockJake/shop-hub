@@ -9,8 +9,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import static jakarta.servlet.DispatcherType.ERROR;
 import static jakarta.servlet.DispatcherType.FORWARD;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
     private final String[] publicPages = new String[]{"/**", "/svg/**"};
     private final String[] privatePages = new String[]{"/admin/**"};
