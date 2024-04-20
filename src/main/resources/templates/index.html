@@ -63,8 +63,8 @@
 <section class="products-section">
     <div class="container">
         <h2 class="text mb-4">Today's Hot Deals: </h2>
-        <div class="row" th:each="product: ${topProducts}">
-            <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-4" th:each="product: ${topProducts}">
                 <div class="card">
                     <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image">
                     <div class="card-body">

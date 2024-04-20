@@ -25,7 +25,16 @@ public record ProductDataLoader(ProductService productService) implements Applic
                         "and less efficient on smooth surfaces.",
                 5L, BigDecimal.valueOf(25000),
                 "https://surlybikes.com/uploads/bikes/surly-preamble-flat-bar-bike-blue-BK3643-800x600.jpg",
-                Map.of("tech1", "description", "tech2", "description", "tech3", "description")));
+                Map.of("tech1", "description", "tech2", "description", "tech3", "description")),
+                new Product(2L,
+                        "Mountain bike2",
+                        "A mountain bike (MTB) or mountain bicycle is a bicycle designed for off-road cycling. " +
+                                "Mountain bikes share some similarities with other bicycles, but incorporate features designed " +
+                                "to enhance durability and performance in rough terrain, which makes them heavier, more complex " +
+                                "and less efficient on smooth surfaces.",
+                        5L, BigDecimal.valueOf(2500),
+                        "https://surlybikes.com/uploads/bikes/surly-ogre-bike-fermented-plum-BK00290-800x600.jpg",
+                        Map.of("tech1", "description", "tech2", "description", "tech3", "description")));
         productService.saveAll(initialProducts);
     }
 }
