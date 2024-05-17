@@ -1,0 +1,70 @@
+package com.university.shophub.frontend.controllers;
+
+import com.university.shophub.backend.models.Request;
+import com.university.shophub.backend.models.Role;
+import com.university.shophub.backend.models.User;
+import com.university.shophub.backend.services.RequestService;
+import com.university.shophub.backend.services.UserService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.time.LocalDate;
+
+@Slf4j
+@Controller
+@RequestMapping("/account")
+public record AccountController(UserService userService, RequestService requestService) {
+    @GetMapping
+    public String account(Model model, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+        final User user = userService.getUserByEmail(authentication.getName());
+
+        try {
+            Request request = requestService.getRequestByRequesterId(user.getId());
+            model.addAttribute("requested", request.getRequestType());
+        } catch (Exception e) {/*ignored*/}
+
+        model.addAttribute("id", user.getId());
+        model.addAttribute("username", user.getName());
+        model.addAttribute("userEmail", user.getEmail());
+        model.addAttribute("userRole", user.getRole().name());
+        model.addAttribute("userCreatedAt", user.getCreatedAt().getYear());
+
+        return "account";
+    }
+
+    @ModelAttribute
+    public User getUser() {
+        final User user = new User();
+        user.setCreatedAt(LocalDate.now());
+        user.setId(null);
+        user.setRole(Role.USER);
+        return user;
+    }
+
+    @GetMapping("/create")
+    public String create() {
+        return "signup";
+    }
+
+    @PostMapping("/create")
+    public String createUser(@Valid User user, Model model) {
+        try {
+            userService.registerNewUser(user);
+            return "redirect:/account";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            return "signup";
+        }
+    }
+}
