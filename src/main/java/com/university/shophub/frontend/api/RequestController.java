@@ -27,7 +27,7 @@ public record RequestController(RequestService requestService) {
         return requestService.saveRequest(request);
     }
 
-    @PutMapping("/{id}/")
+    @PutMapping("/{id}")
     public Request updateRequest(@PathVariable String id, @RequestParam(name = "requestAction") String requestAction) {
         return requestService.mapRequestActionAndProcess(id, requestAction);
     }

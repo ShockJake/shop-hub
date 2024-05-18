@@ -251,30 +251,36 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <form class="needs-validation" novalidate="">
+                            <form class="needs-validation" th:action="@{/account/changePassword}"
+                                  th:object="${changePasswordPayload}" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                <div class="modal-body">
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <label for="currentPassword" class="form-label">Current Password</label>
-                                            <input type="password" class="form-control" id="currentPassword">
+                                            <input th:field="*{currentPassword}" type="password" class="form-control"
+                                                   id="currentPassword">
                                         </div>
                                         <div class="col-12">
                                             <label for="newPassword" class="form-label">New Password</label>
-                                            <input type="password" class="form-control" id="newPassword">
+                                            <input th:field="*{newPassword}" type="password" class="form-control"
+                                                   id="newPassword">
                                         </div>
                                         <div class="col-12">
                                             <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                            <input type="password" class="form-control" id="confirmPassword">
+                                            <input th:field="*{confirmPassword}" type="password" class="form-control"
+                                                   id="confirmPassword">
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="confirmPasswordChangeButton">
-                                    Change Password
-                                </button>
-                            </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="confirmPasswordChangeButton">
+                                        Change Password
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

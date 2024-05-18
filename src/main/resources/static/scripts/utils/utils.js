@@ -36,3 +36,7 @@ export async function handleError(response) {
     }
     return false;
 }
+
+export async function resolveId(input) {
+    return input.split("-")[1]
+}

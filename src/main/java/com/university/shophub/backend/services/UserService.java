@@ -2,6 +2,7 @@ package com.university.shophub.backend.services;
 
 import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.repositories.UserRepository;
+import com.university.shophub.frontend.payloads.ChangePasswordPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -75,5 +76,22 @@ public class UserService {
         log.info("Retrieving user by email: '{}'", email);
         return userRepository.findByEmail(email).orElseThrow(() ->
                 new IllegalArgumentException("User with email " + email + " not found"));
+    }
+
+    public void updatePassword(String userName, ChangePasswordPayload passwordPayload) {
+        final User user = userRepository.findByEmail(userName).orElseThrow(() ->
+                new IllegalArgumentException("User with email " + userName + " not found"));
+        if (!passwordEncoder.matches(passwordPayload.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Current password is incorrect");
+        }
+        if (passwordPayload.getCurrentPassword().equals(passwordPayload.getNewPassword())) {
+            throw new IllegalArgumentException("New password must be different than the old one");
+        }
+        if (!passwordPayload.getNewPassword().equals(passwordPayload.getConfirmPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+        log.info("Updating password for user {}", user.getName());
+        user.setPassword(passwordEncoder.encode(passwordPayload.getNewPassword()));
+        userRepository.save(user);
     }
 }

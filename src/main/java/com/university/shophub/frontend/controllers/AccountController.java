@@ -1,19 +1,19 @@
 package com.university.shophub.frontend.controllers;
 
 import com.university.shophub.backend.models.Request;
+import com.university.shophub.backend.models.RequestStatus;
 import com.university.shophub.backend.models.Role;
 import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.services.RequestService;
 import com.university.shophub.backend.services.UserService;
+import com.university.shophub.frontend.payloads.ChangePasswordPayload;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -30,7 +30,9 @@ public record AccountController(UserService userService, RequestService requestS
 
         try {
             Request request = requestService.getRequestByRequesterId(user.getId());
-            model.addAttribute("requested", request.getRequestType());
+            if (request.getRequestStatus().equals(RequestStatus.PENDING)) {
+                model.addAttribute("requested", request.getRequestType());
+            }
         } catch (Exception e) {/*ignored*/}
 
         model.addAttribute("id", user.getId());
@@ -66,5 +68,20 @@ public record AccountController(UserService userService, RequestService requestS
             model.addAttribute("error", e.getMessage());
             return "signup";
         }
+    }
+
+    @ModelAttribute
+    public ChangePasswordPayload getChangePasswordPayload() {
+        return new ChangePasswordPayload("", "", "");
+    }
+
+    @PostMapping("/changePassword")
+    public String changePassword(@Valid ChangePasswordPayload passwordPayload, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException("Access denied");
+        }
+        userService.updatePassword(authentication.getName(), passwordPayload);
+        authentication.setAuthenticated(false);
+        return "redirect:/account";
     }
 }

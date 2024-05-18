@@ -5,6 +5,7 @@ import com.university.shophub.backend.models.RequestStatus;
 import com.university.shophub.backend.repositories.RequestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,24 +20,29 @@ public class RequestService {
         this.requestProcessor = requestProcessor;
     }
 
+    @Transactional
     public Request saveRequest(Request request) {
         return this.requestRepository.save(request);
     }
 
+    @Transactional
     public Request getRequestById(String id) {
         return this.requestRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Request with id " + id + " not found"));
     }
 
+    @Transactional
     public Request getRequestByRequesterId(String requesterId) {
         return this.requestRepository.findByRequesterId(requesterId).orElseThrow(() ->
                 new IllegalArgumentException("Request with requesterId " + requesterId + " not found"));
     }
 
+    @Transactional
     public List<Request> getAllRequests() {
         return this.requestRepository.findAll();
     }
 
+    @Transactional
     public Request mapRequestActionAndProcess(String id, String requestAction) {
         if ("approve".equals(requestAction)) {
             return this.approveRequest(id);
@@ -46,7 +52,7 @@ public class RequestService {
         throw new IllegalArgumentException("Unknown request action " + requestAction);
     }
 
-    public Request rejectRequest(String id) {
+    private Request rejectRequest(String id) {
         Request request = this.requestRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Request with id " + id + " not found"));
         if (!request.getRequestStatus().equals(RequestStatus.PENDING)) {
@@ -57,7 +63,7 @@ public class RequestService {
         return this.requestRepository.save(request);
     }
 
-    public Request approveRequest(String id) {
+    private Request approveRequest(String id) {
         Request request = this.requestRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Request with id " + id + " not found"));
         if (!request.getRequestStatus().equals(RequestStatus.PENDING)) {
@@ -70,9 +76,13 @@ public class RequestService {
         return this.requestRepository.save(request);
     }
 
+    @Transactional
     public Request deleteRequest(String id) {
         Request request = requestRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Request with id " + id + " not found"));
+        if (request.getRequestStatus().equals(RequestStatus.PENDING)) {
+            throw new IllegalArgumentException("Cannot delete request with id " + id + " before processing it");
+        }
         requestRepository.deleteById(id);
         return request;
     }
