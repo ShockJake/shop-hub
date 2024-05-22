@@ -16,6 +16,7 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 public class WebSecurityConfig {
     private final String[] publicPages = new String[]{"/**", "/svg/**", "/script/**", "/css/**"};
     private final String[] privatePages = new String[]{"/management/**"};
+    private final String[] requireLoginPages = new String[]{"/cart/**"};
     private final String[] noCSRFProtectionPages = new String[]{};
 
     @Bean
@@ -24,6 +25,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                         .requestMatchers(privatePages).hasRole("ADMIN")
+                        .requestMatchers(requireLoginPages).hasAnyRole("USER", "SELLER", "ADMIN")
                         .requestMatchers(publicPages).permitAll()
                         .anyRequest().denyAll())
                 .formLogin(form -> form.loginPage("/login")

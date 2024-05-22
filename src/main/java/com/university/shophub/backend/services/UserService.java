@@ -16,10 +16,12 @@ import java.util.List;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final CartService cartService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CartService cartService) {
         this.userRepository = userRepository;
+        this.cartService = cartService;
     }
 
     public User registerNewUser(User newUser) {
@@ -28,7 +30,9 @@ public class UserService {
             throw new ValidationException("User already exists");
         });
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        return userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+        cartService.addCart(savedUser.getId());
+        return savedUser;
     }
 
     @Transactional
@@ -67,6 +71,7 @@ public class UserService {
         log.info("Deleting user with id: '{}'", id);
         final User user = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("User with id " + id + " not found"));
+        cartService.deleteCart(user.getId());
         userRepository.delete(user);
         return user;
     }
