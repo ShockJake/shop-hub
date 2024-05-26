@@ -146,7 +146,11 @@
             <artifactId>slf4j-reload4j</artifactId>
             <version>2.1.0-alpha1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.2.0-jre</version>
+        </dependency>
         <!-- Dependencies for tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

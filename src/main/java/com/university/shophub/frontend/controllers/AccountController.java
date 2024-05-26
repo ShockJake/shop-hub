@@ -4,6 +4,7 @@ import com.university.shophub.backend.models.Request;
 import com.university.shophub.backend.models.RequestStatus;
 import com.university.shophub.backend.models.Role;
 import com.university.shophub.backend.models.User;
+import com.university.shophub.backend.services.CategoryService;
 import com.university.shophub.backend.services.RequestService;
 import com.university.shophub.backend.services.UserService;
 import com.university.shophub.frontend.payloads.ChangePasswordPayload;
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 @Slf4j
 @Controller
 @RequestMapping("/account")
-public record AccountController(UserService userService, RequestService requestService) {
+public record AccountController(UserService userService, CategoryService categoryService, RequestService requestService) {
     @GetMapping
     public String account(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -40,6 +41,7 @@ public record AccountController(UserService userService, RequestService requestS
         model.addAttribute("userEmail", user.getEmail());
         model.addAttribute("userRole", user.getRole().name());
         model.addAttribute("userCreatedAt", user.getCreatedAt().getYear());
+        model.addAttribute("categories", categoryService.getAllCategories());
 
         return "account";
     }

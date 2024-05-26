@@ -26,6 +26,7 @@ public class WebSecurityConfig {
                         .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                         .requestMatchers(privatePages).hasRole("ADMIN")
                         .requestMatchers(requireLoginPages).hasAnyRole("USER", "SELLER", "ADMIN")
+                        .requestMatchers("product/create/**").hasRole("SELLER")
                         .requestMatchers(publicPages).permitAll()
                         .anyRequest().denyAll())
                 .formLogin(form -> form.loginPage("/login")
