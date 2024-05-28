@@ -45,8 +45,14 @@
                         Products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li th:each="category: ${categories}"><a class="dropdown-item" href="#" th:text="${category.name}"></a></li>
+                        <li th:each="category: ${categories}"><a class="dropdown-item" href="#" th:text="${category.name}" th:href="'/product/categories/' + ${category.name}"></a></li>
                     </ul>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
+                    <a class="nav-link" th:href="@{/product/create/new}" href="#">Sell</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link active" th:href="@{/cart}" href="#">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -130,7 +136,7 @@
                         <h5 class="card-title" th:text="${product.price} + '$'"></h5>
                         <div class="row">
                             <a href="#" th:href="'/product/' + ${product.id}" class="btn btn-primary">Go to product</a>
-                            <a th:onclick="'javascript:handleDeleteFromCart(\'' + ${product.id} + '\');'" class="btn btn-warning">Delete from Cart</a>
+                            <a th:onclick="handleDeleteFromCart([[${product.id}]])" class="btn btn-warning">Delete from Cart</a>
                         </div>
                     </div>
                 </div>

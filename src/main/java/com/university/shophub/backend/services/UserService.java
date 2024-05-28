@@ -78,7 +78,6 @@ public class UserService {
 
     @Transactional
     public User getUserByEmail(String email) {
-        log.info("Retrieving user by email: '{}'", email);
         return userRepository.findByEmail(email).orElseThrow(() ->
                 new IllegalArgumentException("User with email " + email + " not found"));
     }

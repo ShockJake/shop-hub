@@ -23,6 +23,7 @@ public class UserDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        userRepository.deleteAll();
         if (userRepository.count() == 0) {
             List<User> initialUsers = List.of(new User("1", "SuperAdmin", "admin@admin.com",
                             passwordEncoder.encode("1234"), Role.ADMIN, LocalDate.now()),

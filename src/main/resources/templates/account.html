@@ -49,6 +49,9 @@
                 <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
                     <a class="nav-link" th:href="@{/product/create/new}" href="#">Sell</a>
                 </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/cart}" href="#">Cart</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
                 </li>

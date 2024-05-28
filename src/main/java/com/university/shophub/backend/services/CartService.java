@@ -3,6 +3,7 @@ package com.university.shophub.backend.services;
 import com.university.shophub.backend.models.Cart;
 import com.university.shophub.backend.models.Product;
 import com.university.shophub.backend.repositories.CartRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.nonNull;
 
+@Slf4j
 @Service
 public record CartService(CartRepository cartRepository, ProductService productService)
 {
@@ -36,7 +38,7 @@ public record CartService(CartRepository cartRepository, ProductService productS
         cartRepository.saveAll(carts);
     }
 
-    public void addProductToCart(String userId, long productId)
+    public void addProductToCart(String userId, String productId)
     {
         Cart cart = cartRepository.findByUserId(userId);
         if (nonNull(cart))
@@ -49,15 +51,15 @@ public record CartService(CartRepository cartRepository, ProductService productS
         }
     }
 
-    public void deleteProductFromCart(String userId, long productId)
+    public void deleteProductFromCart(String userId, String productId)
     {
         Cart cart = cartRepository.findByUserId(userId);
         if (nonNull(cart))
         {
             List<Product> productList = cart.getProductList();
-            productList.remove(productService.getProductById(productId));
+            Product productById = productService.getProductById(productId);
+            productList.removeIf(product -> product.getId().equals(productById.getId()));
             cart.setProductList(productList);
-
             cartRepository.save(cart);
         }
     }

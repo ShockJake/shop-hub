@@ -17,6 +17,7 @@ public record ProductDataLoader(ProductService productService, ProductRepository
 
     @Override
     public void run(ApplicationArguments args) {
+        productRepository.deleteAll();
         List<Product> initialProducts = List.of(new Product(null,
                         "seller@seller.com",
                         "Mountain bike",

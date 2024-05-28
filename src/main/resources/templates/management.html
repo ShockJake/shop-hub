@@ -34,15 +34,17 @@
                         Products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Books</a></li>
-                        <li><a class="dropdown-item" href="#">Clothes</a></li>
-                        <li><a class="dropdown-item" href="#">For Kids</a></li>
-                        <li><a class="dropdown-item" href="#">Garden</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
+                        <li th:each="category: ${categories}"><a class="dropdown-item" href="#"
+                                                                 th:text="${category.name}"
+                                                                 th:href="'/product/categories/' + ${category.name}"></a>
                         </li>
-                        <li><a class="dropdown-item" href="#">Current offers</a></li>
                     </ul>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
+                    <a class="nav-link active" th:href="@{product/create/new}" href="#">Sell</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/cart}" href="#">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
