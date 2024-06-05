@@ -131,7 +131,12 @@
                     <label for="quantity" class="form-label">Quantity</label>
                     <input type="number" class="form-control" id="quantity" value="1">
                 </div>
-                <button th:onclick="handleAddToCart([[${product.id}]])" class="btn btn-primary" id="addToCartButton">Add to Cart</button>
+                <div class="btn-group-vertical" role="group" aria-label="Basic mixed styles example">
+                    <button th:onclick="handleAddToCart([[${product.id}]])" class="btn btn-primary"
+                            id="addToCartButton">Add to Cart
+                    </button>
+                    <button type="button" class="btn btn btn-secondary" id="buyProductButton">Buy and pay</button>
+                </div>
             </div>
         </div>
         <div class="row mt-5">

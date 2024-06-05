@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>Search Results - Shop-Hub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <style>
-        .categories-navbar {
-            height: 100vh;
-            border-right: 1px solid #dee2e6;
-        }
-    </style>
+    <title>Shop-Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/offcanvas-navbar.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="/scripts/initializers/cart.js" type="module"></script>
+    <script src="/scripts/initializers/payment.js" type="module"></script>
 </head>
 
-<body>
+<body class="bg-body-tertiary">
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <div class="container-fluid justify-content-end">
         <a class="navbar-brand text-primary" href="/">
@@ -37,7 +32,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Shop</a>
+                    <a class="nav-link active" href="#">Shop</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -55,7 +50,7 @@
                     <a class="nav-link" th:href="@{/product/create/new}" href="#">Sell</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link active" th:href="@{/cart}" href="#">Cart</a>
+                    <a class="nav-link" th:href="@{/cart}" href="#">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -117,77 +112,110 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </nav>
 
-<section class="products-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-10">
-                <h2 class="text mb-4">Cart</h2>
-                <div class="row">
-                    <div th:if="${#lists.isEmpty(products)}">
-                        No products in cart :(
+<main class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+        <div class="lh-1">
+            <h1 class="h6 mb-0 text-white lh-1">
+                <span>Payment</span>
+            </h1>
+        </div>
+    </div>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <div class="col-md-7 col-lg-10">
+            <h6 class="border-bottom pb-2 mb-0">Wallet Data</h6>
+            <form class="needs-validation">
+                <div class="row g-3">
+                    <div class="col-3">
+                        <label for="walletIdStatic" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="walletIdStatic" th:value="${id}" disabled>
                     </div>
-                    <div class="col-md-4" th:each="product: ${products}">
-                        <div class="card">
-                            <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${product.name}"></h5>
-                                <h5 class="card-title" th:text="${product.price} + '$'"></h5>
-                                <div class="row">
-                                    <a href="#" th:href="'/product/' + ${product.id}" class="btn btn-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                                        </svg>
-                                        Go to product
-                                    </a>
-                                    <a th:onclick="handleDeleteFromCart([[${product.id}]])" class="btn btn-warning">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                        </svg>
-                                        Delete from Cart
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-5">
+                        <label for="emailStatic" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="emailStatic" placeholder="email@email.com"
+                               th:value="${userEmail}" disabled>
+                    </div>
+                    <div class="col-4">
+                        <label for="balanceStatic" class="form-label">Balance</label>
+                        <input type="text" class="form-control" id="balanceStatic" th:value="${wallet.balance} + '$'"
+                               disabled>
                     </div>
                 </div>
-            </div>
-            <div class="col-2 border">
-                <div class="row">
-                    <h2 class="text">Summary</h2>
-                    <hr class="solid"/>
-                </div>
-
-                <div class="row">
-                    <h5>Total amount: </h5>
-                    <div class="mb-3" th:text="${totalPrice.doubleValue()} + '$'"></div>
-                    <hr class="solid"/>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <a th:href="@{/payment}"
-                       th:class="${#lists.isEmpty(products)} ? 'disabled btn btn-primary' : 'active btn btn-primary'">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-wallet2" viewBox="0 0 16 16">
-                            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
-                        </svg>
-                        Pay & Delivery
-                    </a>
-                    <a class="btn btn-info link-light" th:href="@{/}">Continue shopping</a>
+                <hr class="my-4">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#uploadWalletModal">
+                    Upload money
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="uploadWalletModal" tabindex="-1" aria-labelledby="uploadWalletModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="p-3">
+                    Choose amount:
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="amount[]" id="exampleRadios1"
+                               value="100">
+                        <label class="form-check-label" for="exampleRadios1">100$</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="amount[]" id="exampleRadios2"
+                               value="500">
+                        <label class="form-check-label" for="exampleRadios2">500$</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="amount[]" id="exampleRadios3"
+                               value="1000">
+                        <label class="form-check-label" for="exampleRadios3">1000$</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="amount[]" id="exampleRadios4"
+                               value="5000">
+                        <label class="form-check-label" for="exampleRadios3">5000$</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="uploadWalletButton">
+                            Upload
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">Cart summary:</h6>
+        <div class="d-flex text-body-secondary pt-3" th:each="item : ${cartItems}">
+            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#007bff"></rect>
+                <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+            </svg>
+            <p class="pb-3 mb-0 small lh-sm border-bottom">
+                <strong class="d-block text-gray-dark" th:text="${item.sellerName}"></strong>
+                <label th:text="${item.name}"></label>
+            </p>
+        </div>
+        <small class="d-block text-end mt-3">
+            <h5 th:text="'Total price: ' + ${totalPrice} + '$'"></h5>
+            <h5 class="text-danger" th:if="${totalPrice > wallet.balance}">Not enough money</h5>
+            <div class="d-grid gap-2 d-md-block">
+                <a class="btn btn-secondary col-1" type="button" th:href="@{/cart}">Cart</a>
+                <a class="btn btn-primary col-1" type="button" th:unless="${totalPrice > wallet.balance}">Buy</a>
+            </div>
+        </small>
+    </div>
+</main>
 
-<footer class="footer-section bg-dark text-white">
+<footer class="footer-section bg-dark text-white mt-4">
     <div class="container">
         <div class="row pt-2">
             <div class="col-md-6">
@@ -203,9 +231,8 @@
         </div>
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
-
 </html>
