@@ -84,6 +84,7 @@ public class RequestService {
             throw new IllegalArgumentException("Cannot delete request with id " + id + " before processing it");
         }
         requestRepository.deleteById(id);
+        request.setRequestStatus(RequestStatus.DELETED);
         return request;
     }
 }

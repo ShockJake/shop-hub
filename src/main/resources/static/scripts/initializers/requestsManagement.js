@@ -6,7 +6,6 @@ import {
 
 import {
     reloadWindow,
-    resolveId,
     setEventListeners
 } from "../utils/utils.js";
 

@@ -10,7 +10,9 @@ export function resolveCSRFToken() {
 
 export function setEventListener(objectId, eventListener) {
     const object = document.getElementById(objectId);
-    object.addEventListener('click', eventListener);
+    if (object !== null) {
+        object.addEventListener('click', eventListener);
+    }
 }
 
 export function setEventListeners(objectClassName, eventListener) {
@@ -37,6 +39,20 @@ export async function handleError(response) {
     return false;
 }
 
-export async function resolveId(input) {
-    return input.split("-")[1]
+// Extracts id from html component: some_button-SOME-ID -> SOME-ID
+export function resolveId(input) {
+    const idParts = input.split("-")
+    let result = ""
+    for (let i = 1; i < idParts.length; i++) {
+        if (i > 1) {
+            result += '-'
+        }
+        result += idParts[i]
+
+    }
+    return result
+}
+
+export async function getUser(id) {
+    return await fetch(`${getServerUrl()}/api/users/${id}`, {method: 'GET'})
 }

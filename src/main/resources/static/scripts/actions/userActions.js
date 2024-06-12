@@ -1,4 +1,4 @@
-import {getServerUrl, handleError, reloadWindow, resolveCSRFToken} from "../utils/utils.js";
+import {getServerUrl, getUser, handleError, reloadWindow, resolveCSRFToken} from "../utils/utils.js";
 
 export async function editUserData() {
     const id = document.getElementById("idStatic").value;
@@ -14,7 +14,6 @@ export async function editUserData() {
     user.email = email;
 
     const url = `${getServerUrl()}/api/users/${id}`;
-    console.log(url)
     const editionResponse = await fetch(url, {
         method: 'PATCH', body: JSON.stringify(user),
         headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': resolveCSRFToken().token}
@@ -35,10 +34,6 @@ export async function deleteUser() {
     if (!await handleError(deleteUserResponse)) {
         reloadWindow()
     }
-}
-
-export async function getUser(id) {
-    return await fetch(`${getServerUrl()}/api/users/${id}`, {method: 'GET'})
 }
 
 export async function requestSellerRole() {

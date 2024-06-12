@@ -54,7 +54,9 @@ public record UserController(UserService userService) {
         }
         User deletedUser = userService.deleteUser(id);
         deletedUser.setPassword("hidden");
-        authentication.setAuthenticated(false);
+        if (deletedUser.getEmail().equals(authentication.getName())) {
+            authentication.setAuthenticated(false);
+        }
         return deletedUser;
     }
 

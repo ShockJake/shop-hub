@@ -1,9 +1,6 @@
 package com.university.shophub.frontend.controllers;
 
-import com.university.shophub.backend.models.Request;
-import com.university.shophub.backend.models.RequestStatus;
-import com.university.shophub.backend.models.Role;
-import com.university.shophub.backend.models.User;
+import com.university.shophub.backend.models.*;
 import com.university.shophub.backend.services.CategoryService;
 import com.university.shophub.backend.services.RequestService;
 import com.university.shophub.backend.services.UserService;
@@ -17,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -36,13 +35,15 @@ public record AccountController(UserService userService, CategoryService categor
             }
         } catch (Exception e) {/*ignored*/}
 
+        List<Product> products = new ArrayList<>();
+
         model.addAttribute("id", user.getId());
         model.addAttribute("username", user.getName());
         model.addAttribute("userEmail", user.getEmail());
         model.addAttribute("userRole", user.getRole().name());
         model.addAttribute("userCreatedAt", user.getCreatedAt().getYear());
         model.addAttribute("categories", categoryService.getAllCategories());
-
+        model.addAttribute("products", products);
         return "account";
     }
 

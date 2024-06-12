@@ -6,7 +6,7 @@ import com.university.shophub.backend.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -18,19 +18,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
-    private final UserService userService = Mockito.mock(UserService.class);
-    private final UserController userController = new UserController(userService);
+    @Mock
+    private static UserService userService;
+
+    private static UserController userController;
+
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 
     @BeforeEach
-    public void setUp() {
-        Mockito.clearInvocations(userService);
+    void beforeEach() {
+        userController = new UserController(userService);
     }
 
     @Test
