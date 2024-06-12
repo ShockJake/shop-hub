@@ -130,11 +130,11 @@
             <h6 class="border-bottom pb-2 mb-0">Wallet Data</h6>
             <form class="needs-validation">
                 <div class="row g-3">
-                    <div class="col-3">
+                    <div class="col-2">
                         <label for="walletIdStatic" class="form-label">Id</label>
                         <input type="text" class="form-control" id="walletIdStatic" th:value="${id}" disabled>
                     </div>
-                    <div class="col-5">
+                    <div class="col-6">
                         <label for="emailStatic" class="form-label">Email</label>
                         <input type="text" class="form-control" id="emailStatic" placeholder="email@email.com"
                                th:value="${userEmail}" disabled>
@@ -205,33 +205,71 @@
                     <label th:text="${item.name}"></label>
                 </p>
             </div>
-            <div class="row pt-3">
-                <div class="col-4">
-                    <div th:if="${cartItems.size()} != 0">
-                        <h5>Delivery address:</h5>
+            <div class="row mt-4 bg-light" th:if="${cartItems.size()} != 0">
+                <h5 class="mt-2">Delivery address:</h5>
+                <div class="col-6">
+                    <div>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                        <div class="form-floating g-3">
+                        <div class="form-floating my-2">
+                            <input type="tel" class="form-control" id="firstName" placeholder="First name"
+                                   th:field="*{firstName}" required>
+                            <label for="firstName">First name</label>
+                        </div>
+                        <div class="form-floating my-2">
+                            <input type="text" class="form-control" id="lastName"
+                                   placeholder="Last name" th:field="*{lastName}" required>
+                            <label for="lastName">Last name</label>
+                        </div>
+                        <div class="form-floating my-2">
                             <input type="tel" class="form-control" id="telNumber" placeholder="+48 000 000 000"
-                                   th:field="*{phoneNumber}">
+                                   pattern="^(?:\+48)?\s?(?:\d{3}[\s-]?){2}\d{3}$"
+                                   th:field="*{phoneNumber}" required>
                             <label for="telNumber">Phone number</label>
                         </div>
-                        <div class="form-floating g-3">
+                        <div class="form-floating my-2">
                             <input type="text" pattern="[0-9]{2}-[0-9]{3}" class="form-control" id="postalCode"
-                                   placeholder="00-000" th:field="*{postalCode}">
+                                   placeholder="00-000" th:field="*{postalCode}" required>
                             <label for="postalCode">PostalCode</label>
                         </div>
                     </div>
-                    <h5 th:unless="${cartItems.size()} != 0">
-                        No items in cart!
-                    </h5>
                 </div>
+                <div class="col-6">
+                    <div>
+                        <div class="form-floating my-2">
+                            <input type="text" class="form-control" id="country" placeholder="Country"
+                                   th:field="*{country}" required>
+                            <label for="country">Country</label>
+                        </div>
+                        <div class="form-floating my-2">
+                            <input type="text" class="form-control" id="street"
+                                   th:field="*{street}" placeholder="Street" required>
+                            <label for="street">Street</label>
+                        </div>
+                        <div class="form-floating my-2">
+                            <input type="text" class="form-control" id="city" placeholder="City"
+                                   th:field="*{city}" required>
+                            <label for="city">City</label>
+                        </div>
+                        <div class="form-floating my-2">
+                            <input type="text" class="form-control" id="homeNumber" th:field="*{homeNumber}"
+                                   placeholder="Home number" required>
+                            <label for="homeNumber">Home number</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${cartItems.size()} != 0">
+                <h5>
+                    No items in cart!
+                </h5>
             </div>
             <small class="d-block text-end mt-3">
                 <h5 th:text="'Total price: ' + ${totalPrice} + '$'"></h5>
                 <h5 class="text-danger" th:if="${totalPrice > wallet.balance}">Not enough money</h5>
                 <div class="d-grid gap-2 d-md-block">
                     <a class="btn btn-secondary col-1" type="button" th:href="@{/cart}">Cart</a>
-                    <button class="btn btn-primary col-1" type="submit" th:unless="${totalPrice > wallet.balance}">Buy
+                    <button class="btn btn-primary col-1" type="submit" th:unless="${totalPrice > wallet.balance}">
+                        Buy
                     </button>
                 </div>
             </small>
