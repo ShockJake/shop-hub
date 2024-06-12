@@ -4,6 +4,7 @@ import com.university.shophub.backend.models.*;
 import com.university.shophub.backend.services.CategoryService;
 import com.university.shophub.backend.services.RequestService;
 import com.university.shophub.backend.services.UserService;
+import com.university.shophub.backend.services.WalletService;
 import com.university.shophub.frontend.payloads.ChangePasswordPayload;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,8 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/account")
-public record AccountController(UserService userService, CategoryService categoryService, RequestService requestService) {
+public record AccountController(UserService userService, CategoryService categoryService, RequestService requestService,
+                                WalletService walletService) {
     @GetMapping
     public String account(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -36,7 +38,7 @@ public record AccountController(UserService userService, CategoryService categor
         } catch (Exception e) {/*ignored*/}
 
         List<Product> products = new ArrayList<>();
-
+        Wallet wallet = walletService.findByUserId(user.getId());
         model.addAttribute("id", user.getId());
         model.addAttribute("username", user.getName());
         model.addAttribute("userEmail", user.getEmail());
@@ -44,6 +46,7 @@ public record AccountController(UserService userService, CategoryService categor
         model.addAttribute("userCreatedAt", user.getCreatedAt().getYear());
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("products", products);
+        model.addAttribute("walletBalance", wallet.getBalance());
         return "account";
     }
 

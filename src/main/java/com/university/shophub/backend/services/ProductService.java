@@ -77,7 +77,7 @@ public record ProductService(ProductRepository productRepository, CategoryServic
     }
 
     public List<Product> getProductContainingName(String name) {
-        return productRepository.findByNameContaining(name);
+        return productRepository.findByNameContainingIgnoreCase(name);
     }
 
     public List<Product> getProductByCategory(String categoryName) {

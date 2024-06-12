@@ -20,6 +20,7 @@ public record UserController(UserService userService) {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable String id, Authentication authentication) {
+        log.debug("Getting user by id {}", id);
         if (isAccessViolated(id, authentication, false)) {
             throw new AccessDeniedException("Access denied");
         }
@@ -30,6 +31,7 @@ public record UserController(UserService userService) {
 
     @GetMapping("")
     public List<User> getAllUsers(Authentication authentication) {
+        log.debug("Getting all users");
         if (isAccessViolated(null, authentication, true)) {
             throw new AccessDeniedException("Access denied");
         }
@@ -49,6 +51,7 @@ public record UserController(UserService userService) {
 
     @DeleteMapping("/{id}")
     public User deleteUser(@PathVariable String id, Authentication authentication) {
+        log.debug("Deleting user with id {}", id);
         if (isAccessViolated(id, authentication, false)) {
             throw new AccessDeniedException("Access denied");
         }

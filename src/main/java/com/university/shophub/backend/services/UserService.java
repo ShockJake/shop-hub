@@ -1,5 +1,6 @@
 package com.university.shophub.backend.services;
 
+import com.university.shophub.backend.models.Role;
 import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.repositories.UserRepository;
 import com.university.shophub.frontend.payloads.ChangePasswordPayload;
@@ -25,7 +26,7 @@ public class UserService {
     }
 
     public User registerNewUser(User newUser) {
-        log.info("Registering new user: '{}', '{}'", newUser.getName(), newUser.getEmail());
+        log.debug("Registering new user: '{}', '{}'", newUser.getName(), newUser.getEmail());
         userRepository.findByEmail(newUser.getEmail()).ifPresent(user -> {
             throw new ValidationException("User already exists");
         });
@@ -37,27 +38,27 @@ public class UserService {
 
     @Transactional
     public User getUserById(String id) {
-        log.info("Retrieving user by id: '{}'", id);
+        log.debug("Retrieving user by id: '{}'", id);
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("User with id " + id + " not found"));
     }
 
     @Transactional
     public User getUserByUsername(String username) {
-        log.info("Retrieving user by username: '{}'", username);
+        log.debug("Retrieving user by username: '{}'", username);
         return userRepository.findByName(username).orElseThrow(() ->
                 new IllegalArgumentException("User with name " + username + " not found"));
     }
 
     @Transactional
     public List<User> getAllUsers() {
-        log.info("Retrieving all users");
+        log.debug("Retrieving all users");
         return userRepository.findAll();
     }
 
     @Transactional
     public User updateUser(String id, User user) {
-        log.info("Updating user with id: '{}'", id);
+        log.debug("Updating user with id: '{}'", id);
         User userToUpdate = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("User with id " + id + " not found"));
         if ("hidden".equals(user.getPassword())) {
@@ -68,7 +69,7 @@ public class UserService {
 
     @Transactional
     public User deleteUser(String id) {
-        log.info("Deleting user with id: '{}'", id);
+        log.debug("Deleting user with id: '{}'", id);
         final User user = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("User with id " + id + " not found"));
         cartService.deleteCart(user.getId());
@@ -94,8 +95,16 @@ public class UserService {
         if (!passwordPayload.getNewPassword().equals(passwordPayload.getConfirmPassword())) {
             throw new IllegalArgumentException("Passwords do not match");
         }
-        log.info("Updating password for user {}", user.getName());
+        log.debug("Updating password for user {}", user.getName());
         user.setPassword(passwordEncoder.encode(passwordPayload.getNewPassword()));
         userRepository.save(user);
+    }
+
+    public List<User> getSellers(String userName) {
+        log.debug("Searching sellers by user name: {}", userName);
+        final List<User> result = userRepository.findAllByNameContainingIgnoreCase(userName);
+        return result.stream()
+                .filter(user -> Role.SELLER.equals(user.getRole()))
+                .toList();
     }
 }
