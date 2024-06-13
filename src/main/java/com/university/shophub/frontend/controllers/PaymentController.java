@@ -2,10 +2,7 @@ package com.university.shophub.frontend.controllers;
 
 import com.university.shophub.backend.models.Product;
 import com.university.shophub.backend.models.User;
-import com.university.shophub.backend.services.CartService;
-import com.university.shophub.backend.services.CategoryService;
-import com.university.shophub.backend.services.UserService;
-import com.university.shophub.backend.services.WalletService;
+import com.university.shophub.backend.services.*;
 import com.university.shophub.frontend.payloads.DeliveryAddressPayload;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,7 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/payment")
 public record PaymentController(WalletService walletService, CartService cartService, UserService userService,
-                                CategoryService categoryService) {
+                                CategoryService categoryService, PurchaseService purchaseService) {
 
     @GetMapping
     public String paymentPage(Model model, Authentication auth) {
@@ -45,6 +42,9 @@ public record PaymentController(WalletService walletService, CartService cartSer
         productsToBuy.forEach(product -> {
             cartService.deleteProductFromCart(user.getId(), product.getId());
         });
+
+        purchaseService.savePurchases(productsToBuy, user);
+
         return "redirect:/home";
     }
 }

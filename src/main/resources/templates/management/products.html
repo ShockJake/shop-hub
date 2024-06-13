@@ -10,6 +10,7 @@
     <link href="/css/form-fix.css" rel="stylesheet">
     <link href="/css/modal-fix.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/scripts/initializers/productManagement.js" type="module"></script>
 </head>
 <body class="bg-body-tertiary">
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
@@ -140,58 +141,85 @@
 <div class="container">
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h6 class="border-bottom pb-2 mb-0">Products</h6>
-        <div class="text-center">
+        <div class="text-center" th:if="${products.size() == 0}">
             <h6 class="display-6 mx-auto">Nothing to show</h6>
         </div>
-        <!--        <table class="table" th:if="${categories != null}">-->
-        <!--            <thead>-->
-        <!--            <tr>-->
-        <!--                <th scope="col">ID</th>-->
-        <!--                <th scope="col">User Name</th>-->
-        <!--                <th scope="col">Email</th>-->
-        <!--                <th scope="col">User Role</th>-->
-        <!--                <th scope="col">Action</th>-->
-        <!--            </tr>-->
-        <!--            </thead>-->
-        <!--            <tbody>-->
-        <!--            <tr th:each="user : ${users}">-->
-        <!--                <td th:text="${user.id}" th:id="'user-id-'+${user.id}"></td>-->
-        <!--                <td th:text="${user.name}" th:id="'user-name-'+${user.id}"></td>-->
-        <!--                <td th:text="${user.email}" th:id="'user-email-'+${user.id}"></td>-->
-        <!--                <td>-->
-        <!--                    <span class="badge text-bg-primary" th:text="${user.role.name()}"-->
-        <!--                          th:id="'user-role-'+${user.id}"></span>-->
-        <!--                </td>-->
-        <!--                <td>-->
-        <!--                    <div class="nav-item dropdown">-->
-        <!--                        <button class="dropdown-toggle btn btn-small btn-primary"-->
-        <!--                                role="button"-->
-        <!--                                data-bs-toggle="dropdown" aria-expanded="false">-->
-        <!--                            Action-->
-        <!--                        </button>-->
-        <!--                        <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="accountDropdown">-->
-        <!--                            <button class="dropdown-item btn btn-outline-info text-primary">-->
-        <!--                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
-        <!--                                     class="bi bi-info-circle" viewBox="0 0 15 20">-->
-        <!--                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>-->
-        <!--                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>-->
-        <!--                                </svg>-->
-        <!--                                Edit-->
-        <!--                            </button>-->
-        <!--                            <button class="dropdown-item btn btn-outline-danger text-danger">-->
-        <!--                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"-->
-        <!--                                     class="bi bi-info-circle" viewBox="0 0 15 20">-->
-        <!--                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>-->
-        <!--                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>-->
-        <!--                                </svg>-->
-        <!--                                Delete-->
-        <!--                            </button>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </td>-->
-        <!--            </tr>-->
-        <!--            </tbody>-->
-        <!--        </table>-->
+        <table class="table" th:if="${products.size() > 0}">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Seller</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.id}" th:id="'product-id-'+${product.id}"></td>
+                <td th:text="${product.name}" th:id="'product-name-'+${product.id}"></td>
+                <td th:text="${product.sellerName}" th:id="'product-seller-'+${product.id}"></td>
+                <td th:text="${{product.categoryId}}" th:id="'product-category-'+${product.id}"></td>
+                <td th:text="${product.price}" th:id="'product-price-'+${product.id}"></td>
+                <td><a th:href="${product.imageUrl}" th:id="'product-image-'+${product.id}">Link</a></td>
+                <td>
+                    <div class="nav-item dropdown">
+                        <button class="dropdown-toggle btn btn-small btn-primary"
+                                role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Action
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdown">
+                            <a class="dropdown-item btn btn-outline-info text-primary edit-product-button"
+                                th:href="'/product/edit/' + ${product.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                     class="bi bi-info-circle" viewBox="0 0 15 20">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                </svg>
+                                Edit
+                            </a>
+                            <button class="dropdown-item btn btn-outline-danger text-danger delete-product-button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal" th:id="'delete_product_data_button-'+${product.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                     class="bi bi-info-circle" viewBox="0 0 15 20">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                </svg>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <p style="display: none" id="productId"></p>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Delete product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want to delete the product <span id="product-deletion-span"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeletionOfProductButton">Delete
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

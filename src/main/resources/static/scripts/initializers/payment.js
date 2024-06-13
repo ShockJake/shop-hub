@@ -1,5 +1,7 @@
 import {
-    uploadMoney
+    uploadMoney,
+    uploadMoneyWithAmount,
+    withdrawMoneyWithAmount
 } from "../actions/paymentActions.js";
 
 import {
@@ -7,3 +9,5 @@ import {
 } from "../utils/utils.js";
 
 setEventListener("uploadWalletButton", uploadMoney);
+setEventListener("uploadWalletWithAmountButton", uploadMoneyWithAmount)
+setEventListener("withdrawWalletButton", withdrawMoneyWithAmount)

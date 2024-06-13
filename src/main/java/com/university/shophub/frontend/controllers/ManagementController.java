@@ -1,8 +1,8 @@
 package com.university.shophub.frontend.controllers;
 
-import com.university.shophub.backend.models.Request;
 import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.services.CategoryService;
+import com.university.shophub.backend.services.ProductService;
 import com.university.shophub.backend.services.RequestService;
 import com.university.shophub.backend.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,8 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/management")
-public record ManagementController(UserService userService, RequestService requestService, CategoryService categoryService) {
+public record ManagementController(UserService userService, RequestService requestService, CategoryService categoryService,
+                                   ProductService productService) {
 
     @GetMapping
     public String managementPage(Model model) {
@@ -33,18 +34,20 @@ public record ManagementController(UserService userService, RequestService reque
 
     @GetMapping("/products")
     public String managePostsPage(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("products", productService.getAllProducts());
         return "management/products";
     }
 
     @GetMapping("/requests")
     public String manageRequestsPage(Model model) {
-        List<Request> requests = requestService.getAllRequests();
-        model.addAttribute("requests", requests);
+        model.addAttribute("requests", requestService.getAllRequests());
         return "management/requests";
     }
 
     @GetMapping("/categories")
     public String manageCategoriesPage(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "management/categories";
     }
 

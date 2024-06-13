@@ -156,11 +156,11 @@
         <table class="table" th:if="${users.size() != 0}">
             <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">User Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">User Role</th>
-                <th scope="col">Action</th>
+                <th scope="col" style="width: 10%">ID</th>
+                <th scope="col" style="width: 30%">User Name</th>
+                <th scope="col" style="width: 40%;">Email</th>
+                <th scope="col" style="width: 10%;">User Role</th>
+                <th scope="col" style="width: 10%;">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -276,7 +276,10 @@
     </div>
 </div>
 
-<footer class="footer-section fixed-bottom bg-dark text-white mt-auto py-3">
+<footer class="footer-section bg-dark text-white mt-auto py-3"
+        th:classappend="${users.size() == 0} ? 'fixed-bottom' : ''"
+        th:styleappend="${users.size() < 8} ? 'margin-top: 8rem !important;' : ''" >
+
     <div class="container">
         <div class="row pt-2">
             <div class="col-md-6">

@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
-public record UserController(UserService userService) {
+public record UserControllerAPI(UserService userService) {
 
 
     @GetMapping("/{id}")

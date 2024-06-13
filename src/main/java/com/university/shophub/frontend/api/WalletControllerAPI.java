@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/wallet")
-public record WalletController(WalletService walletService) {
+public record WalletControllerAPI(WalletService walletService) {
 
     @GetMapping("/{id}")
     public Wallet getWalletById(@PathVariable @NonNull String id, Authentication authentication) {

@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="/css/modal-fix.css" rel="stylesheet">
     <script src="/scripts/initializers/account.js" type="module"></script>
+    <script src="/scripts/initializers/payment.js" type="module"></script>
 </head>
 
 <body style="padding-top: 0;" class="bg-body-tertiary d-flex flex-column min-vh-100">
@@ -167,20 +168,44 @@
                 </div>
                 <hr class="my-4">
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-pencil-square" viewBox="0 0 15 20">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd"
+                              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                    Edit
                 </button>
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-shield-lock" viewBox="0 0 15 20">
+                        <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+                        <path d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99a1.5 1.5 0 1 1 2-1.415"/>
+                    </svg>
                     Change Password
                 </button>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-trash3" viewBox="0 0 15 20">
+                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                    </svg>
                     Delete
                 </button>
-                <button th:if="${requested != null}" type="button" disabled="disabled" class="btn btn-disabled">Seller
-                    Role Requested
+                <button th:if="${requested != null}" type="button" disabled="disabled" class="btn btn-disabled">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-shop-window" viewBox="0 0 15 20">
+                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5"/>
+                    </svg>
+                    Seller Role Requested
                 </button>
                 <button th:if="${#authorization.expression('hasRole(''USER'')') && requested==null}" type="button"
                         class="btn btn-warning"
                         id="requestSellerRoleButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-shop-window" viewBox="0 0 15 20">
+                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5"/>
+                    </svg>
                     Request Seller Role
                 </button>
                 <a th:if="${#authorization.expression('hasRole(''SELLER'')')}" type="button"
@@ -324,7 +349,8 @@
         <div class="input-group" style="margin-top: 1%">
             <input type="text" class="form-control" placeholder="Wallet Balance"
                    aria-label="Wallet Balance" readonly="readonly" th:value="${walletBalance}">
-            <button class="btn btn-outline-primary" type="button">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#uploadWalletModal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-arrow-down-circle" viewBox="0 0 15 20">
                     <path fill-rule="evenodd"
@@ -332,7 +358,8 @@
                 </svg>
                 Add
             </button>
-            <button class="btn btn-outline-danger" type="button">
+            <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal"
+                    data-bs-target="#withdrawWalletModal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-arrow-up-right-circle" viewBox="0 0 15 20">
                     <path fill-rule="evenodd"
@@ -340,6 +367,78 @@
                 </svg>
                 Withdraw
             </button>
+        </div>
+
+        <p id="walletIdStatic" th:text="${walletId}" hidden="hidden"></p>
+        <div class="modal fade" id="uploadWalletModal" tabindex="-1" aria-labelledby="uploadWalletModal"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="p-3">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="uploadWalletModalLabel">Upload</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <label for="uploadAmount" class="form-label">Amount</label>
+                                    <input type="number" class="form-control" id="uploadAmount" placeholder=""
+                                           required="required">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                    id="uploadWalletWithAmountButton">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                     class="bi bi-arrow-down-circle" viewBox="0 0 15 20">
+                                    <path fill-rule="evenodd"
+                                          d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                                </svg>
+                                Upload
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="withdrawWalletModal" tabindex="-1" aria-labelledby="uploadWalletModal"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="withdrawWalletModalLabel">Withdraw</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="needs-validation" novalidate="">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <label for="withdrawAmount" class="form-label">Amount</label>
+                                    <input type="number" class="form-control" id="withdrawAmount" placeholder=""
+                                           required="required">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                id="withdrawWalletButton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-arrow-up-right-circle" viewBox="0 0 15 20">
+                                <path fill-rule="evenodd"
+                                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.854 10.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707z"/>
+                            </svg>
+                            Withdraw
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -354,7 +453,7 @@
         </h6>
         <div>
             <div class="d-flex justify-content-end mx-3" style="margin-top: 1%">
-                <a class="btn btn-success" href="/product/create">
+                <a class="btn btn-success" href="/product/create/new">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-file-earmark-fill" viewBox="0 0 20 20">
                         <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z"/>
@@ -391,44 +490,30 @@
             </svg>
             Recent purchases
         </h6>
-        <div class="d-flex text-body-secondary pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#007bff"></rect>
-                <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-            </svg>
-            <p class="pb-3 mb-0 small lh-sm border-bottom">
-                <strong class="d-block text-gray-dark">@shop-name</strong>
-                List of products
-            </p>
+        <div class="text-center" th:if="${purchases.size() == 0}" style="margin-top: 1%">
+            <h6 class="display-6 mx-auto">Nothing to show</h6>
         </div>
-        <div class="d-flex text-body-secondary pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#e83e8c"></rect>
-                <text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text>
-            </svg>
-            <p class="pb-3 mb-0 small lh-sm border-bottom">
-                <strong class="d-block text-gray-dark">@shop-name</strong>
-                List of products
-            </p>
-        </div>
-        <div class="d-flex text-body-secondary pt-3">
-            <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#6f42c1"></rect>
-                <text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text>
-            </svg>
-            <p class="pb-3 mb-0 small lh-sm border-bottom">
-                <strong class="d-block text-gray-dark">@another-shop-name</strong>
-                List of products
-            </p>
+
+        <div>
+            <div class="d-flex text-body-secondary pt-3" th:each="purchase : ${purchases}">
+                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#007bff"></rect>
+                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                </svg>
+
+                <p class="pb-3 mb-0 small lh-sm border-bottom">
+                    <strong class="d-block text-gray-dark">
+                        <a th:text="${purchase.getSellerName()}" th:href="'/seller/' + ${purchase.getSellerId()}"></a>
+                    </strong>
+                    <span th:text="${{purchase.productNames}}"></span>
+                </p>
+                <strong th:text="${purchase.purchaseDate.toString()}" ></strong>
+            </div>
         </div>
         <small class="d-block text-end mt-3">
-            <a href="#">All purchases</a>
+            <a href="/account/purchases">All purchases</a>
         </small>
     </div>
 </main>

@@ -86,6 +86,10 @@ public record ProductService(ProductRepository productRepository, CategoryServic
 
     }
 
+    public List<Product> getProductsBySellerName(String name) {
+        return productRepository.findBySellerName(name);
+    }
+
     public void saveAll(List<Product> initialProducts) {
         productRepository.saveAll(initialProducts);
     }

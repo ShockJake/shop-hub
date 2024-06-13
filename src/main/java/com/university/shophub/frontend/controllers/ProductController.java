@@ -62,4 +62,19 @@ public record ProductController(ProductService productService, CategoryService c
         productService.addProduct(productPayload, technicalDetail, authentication.getName());
         return "redirect:/product/create/new?productCreated";
     }
+
+    @GetMapping("/edit/{id}")
+    public String getEditProduct(Model model, @PathVariable String id) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("technicalDetails", product.getTechnicalDetails());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "edit-product";
+    }
+
+    @PutMapping("/edit/{id}")
+    public String editProduct(Model model, @PathVariable String id) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "redirect:product";
+    }
 }

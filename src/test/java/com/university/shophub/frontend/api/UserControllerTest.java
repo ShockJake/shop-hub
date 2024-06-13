@@ -26,13 +26,13 @@ class UserControllerTest {
     @Mock
     private static UserService userService;
 
-    private static UserController userController;
+    private static UserControllerAPI userControllerAPI;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 
     @BeforeEach
     void beforeEach() {
-        userController = new UserController(userService);
+        userControllerAPI = new UserControllerAPI(userService);
     }
 
     @Test
@@ -45,7 +45,7 @@ class UserControllerTest {
         given(userService.getAllUsers()).willReturn(List.of(getUser()));
 
         // when
-        final List<User> users = userController.getAllUsers(authentication);
+        final List<User> users = userControllerAPI.getAllUsers(authentication);
 
         // then
         assertEquals(1, users.size());
@@ -60,7 +60,7 @@ class UserControllerTest {
         given(userService.getUserByEmail(user.getEmail())).willReturn(user);
 
         // when & then
-        assertThrows(AccessDeniedException.class, () -> userController.getAllUsers(authentication));
+        assertThrows(AccessDeniedException.class, () -> userControllerAPI.getAllUsers(authentication));
     }
 
     @Test
@@ -73,7 +73,7 @@ class UserControllerTest {
         given(userService.getUserById(expectedUser.getId())).willReturn(expectedUser);
 
         // when
-        final User actualUser = userController.getUserById(expectedUser.getId(), authentication);
+        final User actualUser = userControllerAPI.getUserById(expectedUser.getId(), authentication);
 
         // then
         assertEquals(expectedUser.getId(), actualUser.getId());
@@ -87,7 +87,7 @@ class UserControllerTest {
         authentication.setAuthenticated(false);
 
         // when
-        final boolean result = userController.isAccessViolated(idFromRequest, authentication, false);
+        final boolean result = userControllerAPI.isAccessViolated(idFromRequest, authentication, false);
 
         // then
         assertTrue(result);
@@ -102,7 +102,7 @@ class UserControllerTest {
         given(userService.getUserByEmail(user.getEmail())).willReturn(user);
 
         // when
-        final boolean result = userController.isAccessViolated(user.getId(), authentication, true);
+        final boolean result = userControllerAPI.isAccessViolated(user.getId(), authentication, true);
 
         // then
         assertTrue(result);
@@ -117,7 +117,7 @@ class UserControllerTest {
         given(userService.getUserByEmail(admin.getEmail())).willReturn(admin);
 
         // when
-        final boolean result = userController.isAccessViolated(admin.getId(), authentication, true);
+        final boolean result = userControllerAPI.isAccessViolated(admin.getId(), authentication, true);
 
         // then
         assertFalse(result);
