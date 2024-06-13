@@ -47,6 +47,8 @@ public record AccountController(UserService userService, CategoryService categor
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("products", products);
         model.addAttribute("walletBalance", wallet.getBalance());
+        model.addAttribute("transactions", wallet.getHistory());
+
         return "account";
     }
 
