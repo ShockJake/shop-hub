@@ -109,10 +109,10 @@
     </div>
 </nav>
 
-<div class="container-fluid m-3">
-    <div class="row">
+<main class="container">
+    <div class="row m-2">
         <div class="col-md-4" th:each="product: ${products}">
-            <div class="card rounded shadow">
+            <div class="card rounded shadow my-2">
                 <a th:href="'/product/' + ${product.id}" href="#"><img th:src="${product.imageUrl}"
                                                                        class="card-img-top p-2" alt="Product Image"></a>
                 <div class="card-body">
@@ -141,7 +141,7 @@
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <footer class="footer-section bg-dark text-white mt-auto">
     <div class="container">
