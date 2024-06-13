@@ -5,6 +5,7 @@ import com.university.shophub.backend.services.CartService;
 import com.university.shophub.backend.services.CategoryService;
 import com.university.shophub.backend.services.ProductService;
 import com.university.shophub.backend.services.UserService;
+import jakarta.validation.constraints.Min;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -29,10 +30,11 @@ public record CartController(CartService cartService, UserService userService, P
     }
 
     @PostMapping("/{id}")
-    public String addProduct(@PathVariable @NonNull String id, Model model, Authentication authentication) {
-        final User user = userService.getUserByEmail(authentication.getName());
+    public String addProducts(@PathVariable @NonNull String id, @RequestParam(name = "quantity") @NonNull @Min(1) Long quantity, Model model, Authentication authentication) {
+        log.info("Receiving cart data: {}, {}", quantity, id);
 
-        cartService.addProductToCart(user.getId(), id);
+        final User user = userService.getUserByEmail(authentication.getName());
+        cartService.addProductsToCart(user.getId(), id, quantity);
         model.addAttribute("products", cartService.getProducts(user.getId()));
         model.addAttribute("totalPrice", cartService.getTotalPrice(user.getId()));
         model.addAttribute("categories", categoryService.getAllCategories());
@@ -41,9 +43,11 @@ public record CartController(CartService cartService, UserService userService, P
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable @NonNull String id, Model model, Authentication authentication) {
+    public String deleteProduct(@PathVariable @NonNull String id, @RequestParam(name = "quantity") @NonNull @Min(1) Long quantity, Model model, Authentication authentication) {
+        log.info("Deleting cart data: {}, {}", quantity, id);
+
         final User user = userService.getUserByEmail(authentication.getName());
-        cartService.deleteProductFromCart(user.getId(), id);
+        cartService.deleteProductsFromCart(user.getId(), id, quantity);
         model.addAttribute("products", cartService.getProducts(user.getId()));
         model.addAttribute("totalPrice", cartService.getTotalPrice(user.getId()));
         model.addAttribute("categories", categoryService.getAllCategories());

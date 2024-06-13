@@ -12,7 +12,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component
-public record ProductDataLoader(ProductService productService, ProductRepository productRepository) implements ApplicationRunner {
+public record ProductDataLoader(ProductService productService,
+                                ProductRepository productRepository) implements ApplicationRunner {
 
 
     @Override
@@ -25,8 +26,9 @@ public record ProductDataLoader(ProductService productService, ProductRepository
                                 "Mountain bikes share some similarities with other bicycles, but incorporate features designed " +
                                 "to enhance durability and performance in rough terrain, which makes them heavier, more complex " +
                                 "and less efficient on smooth surfaces.",
-                        5L, BigDecimal.valueOf(25000),
+                        5L, BigDecimal.valueOf(10000),
                         "https://surlybikes.com/uploads/bikes/surly-preamble-flat-bar-bike-blue-BK3643-800x600.jpg",
+                        2L,
                         List.of(new TechnicalDetail("tech1", "description"), new TechnicalDetail("tech2", "description"), new TechnicalDetail("tech3", "description"))),
                 new Product(null,
                         "seller@seller.com",
@@ -37,6 +39,7 @@ public record ProductDataLoader(ProductService productService, ProductRepository
                                 "and less efficient on smooth surfaces.",
                         5L, BigDecimal.valueOf(2500),
                         "https://surlybikes.com/uploads/bikes/surly-ogre-bike-fermented-plum-BK00290-800x600.jpg",
+                        5L,
                         List.of(new TechnicalDetail("tech1", "description"), new TechnicalDetail("tech2", "description"), new TechnicalDetail("tech3", "description"))),
                 new Product(null,
                         "seller@seller.com",
@@ -47,6 +50,7 @@ public record ProductDataLoader(ProductService productService, ProductRepository
                                 "and less efficient on smooth surfaces.",
                         5L, BigDecimal.valueOf(2500),
                         "https://surlybikes.com/uploads/bikes/surly-preamble-flat-bar-bike-blue-BK3643-800x600.jpg",
+                        5L,
                         List.of(new TechnicalDetail("tech1", "description"), new TechnicalDetail("tech2", "description"), new TechnicalDetail("tech3", "description"))),
                 new Product(null,
                         "seller@seller.com",
@@ -57,6 +61,7 @@ public record ProductDataLoader(ProductService productService, ProductRepository
                                 "and less efficient on smooth surfaces.",
                         5L, BigDecimal.valueOf(2500),
                         "https://surlybikes.com/uploads/bikes/surly-ogre-bike-fermented-plum-BK00290-800x600.jpg",
+                        5L,
                         List.of(new TechnicalDetail("tech1", "description"), new TechnicalDetail("tech2", "description"), new TechnicalDetail("tech3", "description"))));
         productService.saveAll(initialProducts);
     }
