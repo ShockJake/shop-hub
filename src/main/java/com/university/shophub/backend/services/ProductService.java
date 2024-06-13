@@ -30,6 +30,10 @@ public record ProductService(ProductRepository productRepository, CategoryServic
         return productRepository.findAll();
     }
 
+    public List<Product> getProductsBySellerName(String sellerName) {
+        return productRepository.findBySellerName(sellerName);
+    }
+
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }

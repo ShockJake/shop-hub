@@ -3,6 +3,7 @@ package com.university.shophub.frontend.controllers;
 import com.google.common.collect.Streams;
 import com.university.shophub.backend.models.Product;
 import com.university.shophub.backend.models.TechnicalDetail;
+import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.services.CategoryService;
 import com.university.shophub.backend.services.ProductService;
 import com.university.shophub.backend.services.UserService;
@@ -26,10 +27,13 @@ public record ProductController(ProductService productService, CategoryService c
 
     @GetMapping("/{id}")
     public String getProductById(@PathVariable @NotNull String id, Model model) {
-        Product productById = productService.getProductById(id);
-        log.trace("Found product with id {}", productById);
-        model.addAttribute("product", productById);
+        final Product product = productService.getProductById(id);
+        User seller = userService.getUserByEmail(product.getSellerName());
+        log.trace("Found product with id {}", product);
+        model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("sellerId", seller.getId());
+        model.addAttribute("sellerName", seller.getName());
         return "product";
     }
 
