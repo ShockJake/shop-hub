@@ -189,11 +189,9 @@ public record ProductDataLoader(ProductService productService,
                         BigDecimal.valueOf(5490),
                         "https://img.freepik.com/premium-photo/silver-steel-fridge-model-isolated-white-background_124507-67356.jpg",
                         10L,
-                        List.of(new TechnicalDetail("tech1", "description"), new TechnicalDetail("tech2", "description"), new TechnicalDetail("tech3", "description")))
-        );
                         List.of(new TechnicalDetail("tech1", "description"),
                                 new TechnicalDetail("tech2", "description"),
-                                new TechnicalDetail("tech3", "description")),
+                                new TechnicalDetail("tech3", "description"))),
                 new Product(null,
                         "seller@seller.com",
                         "SAMSUNG QE55Q77C 55 QLED",
