@@ -29,7 +29,17 @@ public class UserDataLoader implements ApplicationRunner {
                     new User("2", "SuperSeller", "seller@seller.com",
                             passwordEncoder.encode("1234"), Role.SELLER, LocalDate.now()),
                     new User("3", "SuperUser", "user@user.com",
-                            passwordEncoder.encode("1234"), Role.USER, LocalDate.now())
+                            passwordEncoder.encode("1234"), Role.USER, LocalDate.now()),
+                    new User("4", "Premium Watches", "premiumWatches@shop.com",
+                            passwordEncoder.encode("1234"), Role.SELLER, LocalDate.now()),
+                    new User("5", "Home and Garden", "homeAndGarden@shop.com",
+                            passwordEncoder.encode("1234"), Role.SELLER, LocalDate.now()),
+                    new User("6", "GuitarShop", "guitar@shop.com",
+                            passwordEncoder.encode("1234"), Role.SELLER, LocalDate.now()),
+                    new User("7", "OutdoorShop", "outdoor@shop.com",
+                            passwordEncoder.encode("1234"), Role.SELLER, LocalDate.now()),
+                    new User("8", "TShirts", "tshirts@shop.com",
+                            passwordEncoder.encode("1234"), Role.SELLER, LocalDate.now())
             );
             userRepository.saveAll(initialUsers);
         }

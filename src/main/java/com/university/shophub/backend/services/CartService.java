@@ -14,7 +14,15 @@ import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
-public record CartService(CartRepository cartRepository, ProductService productService) {
+public class CartService {
+    private final CartRepository cartRepository;
+    private final ProductService productService;
+
+    public CartService(CartRepository cartRepository, ProductService productService) {
+        this.cartRepository = cartRepository;
+        this.productService = productService;
+    }
+
     public List<Product> getProducts(String userId) {
         return cartRepository.findByUserId(userId).getProductList();
     }

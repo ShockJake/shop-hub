@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/payment")
 public record PaymentController(WalletService walletService, CartService cartService, UserService userService,
-                                CategoryService categoryService, ShippingDetailService shippingDetailService) {
+                                CategoryService categoryService, PurchaseService purchaseService, ShippingDetailService shippingDetailService) {
 
     @GetMapping
     public String paymentPage(Model model, Authentication auth) {
@@ -44,6 +44,9 @@ public record PaymentController(WalletService walletService, CartService cartSer
         productsToBuy.forEach(product -> {
             cartService.deleteProductFromCart(user.getId(), product.getId());
         });
+
+        purchaseService.savePurchases(productsToBuy, user);
+
         shippingDetailService.saveDetails(shippingDetails, productsToBuy, user.getId());
         return "redirect:/home";
     }

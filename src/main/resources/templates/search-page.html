@@ -10,6 +10,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="/css/modal-fix.css" rel="stylesheet">
+    <link href="/css/image-size.css" rel="stylesheet">
 </head>
 
 <body style="padding-top: 0;" class="bg-body-tertiary d-flex flex-column min-vh-100">
@@ -138,7 +139,8 @@
             <div class="col-md-4 mb-3" th:each="product: ${foundProducts}">
                 <div class="card rounded shadow">
                     <a th:href="'/product/' + ${product.id}" href="#">
-                        <img th:src="${product.imageUrl}" class="card-img-top object-fit-contain p-2" width="300" height="300" alt="Product Image"></a>
+                        <img th:src="${product.imageUrl}" class="card-img-top object-fit-contain image-max-size p-2"
+                             alt="Product Image"></a>
                     <div class="card-body">
                         <a class="link-dark" th:href="'/product/' + ${product.id}" href="#">
                             <h5 class="card-title" th:text="${product.name}"></h5>
@@ -193,7 +195,9 @@
                 <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
             </svg>
             <p class="pb-3 mb-0 small lh-sm">
-                <strong class="d-block text-gray-dark" th:text="${seller.getName()}">@shop-name</strong>
+                <a th:href="'/seller/' + ${seller.id}" class="d-block text-gray-dark">
+                    <strong>@<span th:text="${seller.getName()}"></span></strong>
+                </a>
             </p>
         </div>
     </div>

@@ -13,11 +13,15 @@ import static java.util.Collections.emptyList;
 @Component
 public record CartDataLoader(CartService cartService) implements ApplicationRunner {
     @Override
-    public void run(ApplicationArguments args)
-    {
+    public void run(ApplicationArguments args) {
         List<Cart> initialCarts = List.of(new Cart("1", emptyList()),
                 new Cart("2", emptyList()),
-                new Cart("3", emptyList())
+                new Cart("3", emptyList()),
+                new Cart("4", emptyList()),
+                new Cart("5", emptyList()),
+                new Cart("6", emptyList()),
+                new Cart("7", emptyList()),
+                new Cart("8", emptyList())
         );
 
         cartService.saveAll(initialCarts);

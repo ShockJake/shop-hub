@@ -21,3 +21,46 @@ export async function uploadMoney() {
         reloadWindow()
     }
 }
+
+export async function uploadMoneyWithAmount() {
+    const id = document.getElementById("walletIdStatic").innerText
+    const amount = document.getElementById("uploadAmount").value
+
+    const walletResponse = await fetch(`${getServerUrl()}/api/wallet/${id}`)
+    if(await handleError(walletResponse))
+        return;
+
+    const wallet = await walletResponse.json();
+    wallet.balance = Number(amount) + Number(wallet.balance);
+    const editionResponse = await fetch(`${getServerUrl()}/api/wallet/update`, {
+        method: 'PATCH', body: JSON.stringify(wallet),
+        headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': resolveCSRFToken().token}
+    })
+    if (!await handleError(editionResponse)) {
+        reloadWindow()
+    }
+}
+
+export async function withdrawMoneyWithAmount() {
+    const id = document.getElementById("walletIdStatic").innerText
+    const amount = document.getElementById("withdrawAmount").value
+
+    const walletResponse = await fetch(`${getServerUrl()}/api/wallet/${id}`)
+    if(await handleError(walletResponse))
+        return;
+
+    const wallet = await walletResponse.json();
+    const result = Number(wallet.balance) - Number(amount);
+
+    if (result < 0) {
+        return;
+    }
+    wallet.balance = result
+    const editionResponse = await fetch(`${getServerUrl()}/api/wallet/update`, {
+        method: 'PATCH', body: JSON.stringify(wallet),
+        headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': resolveCSRFToken().token}
+    })
+    if (!await handleError(editionResponse)) {
+        reloadWindow()
+    }
+}

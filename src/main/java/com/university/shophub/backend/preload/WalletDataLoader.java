@@ -22,9 +22,14 @@ public class WalletDataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (walletRepository.count() == 0) {
-            walletRepository.save(new Wallet("1", 3500d, new ArrayList<>()));
+            walletRepository.save(new Wallet("1", 500d, new ArrayList<>()));
             walletRepository.save(new Wallet("2", 3500d, createTransactions()));
-            walletRepository.save(new Wallet("3", 3500d, new ArrayList<>()));
+            walletRepository.save(new Wallet("3", 93500d, new ArrayList<>()));
+            walletRepository.save(new Wallet("4", 83500d, new ArrayList<>()));
+            walletRepository.save(new Wallet("5", 123500d, new ArrayList<>()));
+            walletRepository.save(new Wallet("6", 63533d, new ArrayList<>()));
+            walletRepository.save(new Wallet("7", 41500d, new ArrayList<>()));
+            walletRepository.save(new Wallet("8", 13500d, new ArrayList<>()));
         }
     }
 

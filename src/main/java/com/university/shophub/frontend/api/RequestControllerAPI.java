@@ -10,7 +10,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/requests")
-public record RequestController(RequestService requestService) {
+public record RequestControllerAPI(RequestService requestService) {
     @GetMapping
     public List<Request> getRequests() {
         return requestService.getAllRequests();

@@ -4,7 +4,7 @@ import {
 } from "../utils/utils.js";
 
 export async function approveRequest(fullId) {
-    const id = await resolveId(fullId);
+    const id = resolveId(fullId);
     const url = `${getServerUrl()}/api/requests/${id}?requestAction=approve`;
     const approveRequestResponse = await fetch(url, {
         method: 'PUT',
@@ -16,7 +16,7 @@ export async function approveRequest(fullId) {
 }
 
 export async function rejectRequest(fullId) {
-    const id = await resolveId(fullId);
+    const id = resolveId(fullId);
     const url = `${getServerUrl()}/api/requests/${id}?requestAction=reject`;
     const rejectRequestResponse = await fetch(url, {
         method: 'PUT',
@@ -28,7 +28,7 @@ export async function rejectRequest(fullId) {
 }
 
 export async function deleteRequest(fullId) {
-    const id = await resolveId(fullId);
+    const id = resolveId(fullId);
     const url = `${getServerUrl()}/api/requests/${id}`;
     const deleteRequestResponse = await fetch(url, {
         method: 'DELETE',

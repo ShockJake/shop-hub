@@ -2,6 +2,7 @@ package com.university.shophub.backend.services;
 
 import com.university.shophub.backend.models.Role;
 import com.university.shophub.backend.models.User;
+import com.university.shophub.backend.models.Wallet;
 import com.university.shophub.backend.repositories.UserRepository;
 import com.university.shophub.frontend.payloads.ChangePasswordPayload;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,11 +20,13 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final CartService cartService;
+    private final WalletService walletService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 
-    public UserService(UserRepository userRepository, CartService cartService) {
+    public UserService(UserRepository userRepository, CartService cartService, WalletService walletService) {
         this.userRepository = userRepository;
         this.cartService = cartService;
+        this.walletService = walletService;
     }
 
     public User registerNewUser(User newUser) {
@@ -33,6 +37,13 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         User savedUser = userRepository.save(newUser);
         cartService.addCart(savedUser.getId());
+
+        walletService.createWallet(Wallet.builder()
+                .userId(savedUser.getId())
+                .history(new ArrayList<>())
+                .balance(0.0)
+                .build());
+
         return savedUser;
     }
 
