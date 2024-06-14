@@ -64,4 +64,11 @@ public class WalletService {
         walletRepository.save(wallet);
         return transactions;
     }
+
+    public Wallet createWallet(Wallet wallet) {
+        if (walletRepository.findByUserId(wallet.getUserId()) != null) {
+            throw new IllegalArgumentException("Wallet already exists for user with id: " + wallet.getUserId());
+        }
+        return walletRepository.save(wallet);
+    }
 }

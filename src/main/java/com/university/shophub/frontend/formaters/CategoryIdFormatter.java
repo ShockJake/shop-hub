@@ -20,9 +20,14 @@ public class CategoryIdFormatter implements Formatter<Long> {
     @Override
     public @NotNull Long parse(@NotNull String text, @NotNull Locale locale) throws ParseException {
         try {
+
             return categoryService.getCategoryByName(text).getId();
         } catch (NullPointerException e) {
-            return Long.valueOf(text);
+            try {
+                return Long.parseLong(text);
+            } catch (NumberFormatException ex) {
+                throw new ParseException("No category found with given name: " + text, 0);
+            }
         }
     }
 

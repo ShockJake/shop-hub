@@ -32,7 +32,6 @@ export async function uploadMoneyWithAmount() {
 
     const wallet = await walletResponse.json();
     wallet.balance = Number(amount) + Number(wallet.balance);
-    console.log(wallet.balance);
     const editionResponse = await fetch(`${getServerUrl()}/api/wallet/update`, {
         method: 'PATCH', body: JSON.stringify(wallet),
         headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': resolveCSRFToken().token}
@@ -43,7 +42,7 @@ export async function uploadMoneyWithAmount() {
 }
 
 export async function withdrawMoneyWithAmount() {
-    const id = document.getElementById("walletIdStatic").value
+    const id = document.getElementById("walletIdStatic").innerText
     const amount = document.getElementById("withdrawAmount").value
 
     const walletResponse = await fetch(`${getServerUrl()}/api/wallet/${id}`)

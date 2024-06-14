@@ -45,7 +45,7 @@ public record PurchaseService(PurchaseRepository purchaseRepository, UserService
         return purchaseRepository.findTop4ByUserIdOrderByPurchaseDateDesc(userId);
     }
 
-    public void savePurchases(List<Product> productsToBuy, User user) {
+    public List<Purchase> savePurchases(List<Product> productsToBuy, User user) {
         final Map<String, List<Product>> productsGroupedBySeller = new HashMap<>();
 
         productsToBuy.forEach(product -> insertProductToMap(product, productsGroupedBySeller));
@@ -61,16 +61,19 @@ public record PurchaseService(PurchaseRepository purchaseRepository, UserService
                         .build())
                 .toList();
 
-        purchaseRepository.saveAll(purchases);
+        return purchaseRepository.saveAll(purchases);
     }
 
     private void insertProductToMap(Product product, Map<String, List<Product>> map) {
-        if (map.containsKey(product.getSellerName())) {
-            map.get(product.getSellerName()).add(product);
+        final User seller = userService.getUserByEmail(product.getSellerName());
+        if (map.containsKey(seller.getName())) {
+            log.debug("Inserting product: {}", product);
+            map.get(seller.getName()).add(product);
         } else {
+            log.debug("Adding product: {}", product);
             List<Product> products = new ArrayList<>();
             products.add(product);
-            map.put(userService.getUserByEmail(product.getSellerName()).getName(), products);
+            map.put(seller.getName(), products);
         }
     }
 

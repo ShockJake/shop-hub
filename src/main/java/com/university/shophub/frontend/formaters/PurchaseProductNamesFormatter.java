@@ -12,11 +12,12 @@ import java.util.Locale;
 public class PurchaseProductNamesFormatter implements Formatter<List<String>> {
     @Override
     public @NotNull List<String> parse(String text, @NotNull Locale locale) throws ParseException {
-        return List.of(text.split(","));
+        return List.of(text.split(", "));
     }
 
     @Override
     public @NotNull String print(@NotNull List<String> object, @NotNull Locale locale) {
-        return String.join(",", object);
+
+        return String.join(", ", object);
     }
 }

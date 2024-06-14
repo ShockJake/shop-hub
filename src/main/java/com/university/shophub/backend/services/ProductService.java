@@ -3,7 +3,9 @@ package com.university.shophub.backend.services;
 import com.university.shophub.backend.models.Category;
 import com.university.shophub.backend.models.Product;
 import com.university.shophub.backend.models.TechnicalDetail;
+import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.repositories.ProductRepository;
+import com.university.shophub.backend.repositories.UserRepository;
 import com.university.shophub.frontend.payloads.CreateProductPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,8 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public record ProductService(ProductRepository productRepository, CategoryService categoryService) {
+public record ProductService(ProductRepository productRepository, CategoryService categoryService,
+                             UserRepository userRepository) {
 
     private static final String UPLOAD_DIRECTORY = "src/main/resources/static/uploads";
 
@@ -87,7 +90,11 @@ public record ProductService(ProductRepository productRepository, CategoryServic
     }
 
     public List<Product> getProductsBySellerName(String name) {
-        return productRepository.findBySellerName(name);
+        //todo: change seller name to seller email, or set a real seller name
+        // (at the moment sellerName field is populated with email of seller).
+        User user = userRepository.findByName(name).orElseThrow(() ->
+                new IllegalArgumentException("Not user with such name: " + name));
+        return productRepository.findBySellerName(user.getEmail());
     }
 
     public void saveAll(List<Product> initialProducts) {
