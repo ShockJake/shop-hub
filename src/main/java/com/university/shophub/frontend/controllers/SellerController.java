@@ -23,7 +23,7 @@ public record SellerController(UserService userService, ProductService productSe
         model.addAttribute("sellerEmail", seller.getEmail());
         model.addAttribute("sellerRole", seller.getRole());
         model.addAttribute("sellerCreatedAt", seller.getCreatedAt());
-        model.addAttribute("sellerProducts", productService.getProductsBySellerName(seller.getEmail()));
+        model.addAttribute("sellerProducts", productService.getProductsBySellerName(seller.getName()));
         model.addAttribute("categories", categoryService.getAllCategories());
 
         return "seller-dashboard";

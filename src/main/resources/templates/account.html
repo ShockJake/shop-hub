@@ -470,14 +470,15 @@
                 <h6 class="display-6 mx-auto">Nothing to show</h6>
             </div>
             <div class="d-flex text-body-secondary pt-3" th:if="${products.size() > 0}" th:each="product : ${products}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#007bff" class="bi bi-boxes"
-                     viewBox="0 0 20 30">
-                    <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
-                </svg>
                 <p class="pb-3 mb-0 small lh-sm border-bottom">
-                    <strong class="d-block text-gray-dark"><a href="#" th:text="${product.name}">Product
-                        Name</a></strong>
-                    <!-- todo: add templating-->
+                    <strong class="d-block text-gray-dark">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#007bff"
+                             class="bi bi-boxes"
+                             viewBox="0 0 15 20">
+                            <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
+                        </svg>
+                        <a th:href="'/product/' + ${product.id} " th:text="${product.name}">Product
+                            Name</a></strong>
                     <span th:text="${product.description}"></span>
                 </p>
             </div>
@@ -519,7 +520,8 @@
 
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h6 class="border-bottom pb-2 mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-cash-stack"
+                 viewBox="0 0 15 18">
                 <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
                 <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
             </svg>
@@ -543,7 +545,8 @@
                         </thead>
                         <tbody>
                         <tr th:each="transaction : ${transactions}">
-                            <td th:text="${transaction.amount}" th:style="${transaction.amount > 0 ? 'color : green' : 'color : red'}"></td>
+                            <td th:text="${transaction.amount}"
+                                th:style="${transaction.amount > 0 ? 'color : green' : 'color : red'}"></td>
                             <td th:text="${transaction.productName}"></td>
                             <td th:text="${transaction.date}"></td>
                         </tr>
@@ -615,13 +618,13 @@
                 borderColor: 'black',
                 borderWidth: 1
             },
-            {
-                label: 'Expenses',
-                data: expense_data,
-                backgroundColor: 'red',
-                borderColor: 'black',
-                borderWidth: 1
-            }]
+                {
+                    label: 'Expenses',
+                    data: expense_data,
+                    backgroundColor: 'red',
+                    borderColor: 'black',
+                    borderWidth: 1
+                }]
         },
         options: {
             scales: {
@@ -638,7 +641,7 @@
         currentDate.setMonth(currentDate.getMonth() - 5);
 
         for (let i = 0; i < 6; i++) {
-            const month = currentDate.toLocaleString('en-US', { month: 'long' });
+            const month = currentDate.toLocaleString('en-US', {month: 'long'});
 
             months.push(`${month}`);
             currentDate.setMonth(currentDate.getMonth() + 1);
@@ -652,12 +655,11 @@
         transactions.map(transaction => {
             if ((isRevenue && transaction.amount >= 0) || (!isRevenue && transaction.amount < 0)) {
                 const date = new Date(transaction.date);
-                const month = date.toLocaleString('en-US', { month: 'long' });
+                const month = date.toLocaleString('en-US', {month: 'long'});
                 const toAdd = transaction.amount < 0 ? -transaction.amount : transaction.amount;
                 if (grouped[month] === undefined) {
                     grouped[month] = toAdd;
-                }
-                else {
+                } else {
                     grouped[month] = grouped[month] + toAdd;
                 }
             }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -60,7 +59,7 @@ public record AccountController(UserService userService, CategoryService categor
         }
         final User user = userService.getUserByEmail(authentication.getName());
         user.setPassword("hidden");
-        model.addAttribute("purchases", purchaseService.getPurchaseById(user.getId()));
+        model.addAttribute("purchases", purchaseService.getPurchasesByUserId(user.getId()));
         model.addAttribute("user", user);
         return "purchases";
     }

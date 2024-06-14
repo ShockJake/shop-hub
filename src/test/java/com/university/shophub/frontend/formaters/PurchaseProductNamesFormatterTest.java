@@ -19,7 +19,7 @@ class PurchaseProductNamesFormatterTest {
     void shouldFormatPurchaseProductNames() {
         // given
         final List<String> productNames = List.of("product1", "product2", "product3", "product4");
-        final String expectedString = "product1,product2,product3,product4";
+        final String expectedString = "product1, product2, product3, product4";
 
         // when
         final String actualString = formatter.print(productNames, Locale.getDefault());
@@ -31,7 +31,7 @@ class PurchaseProductNamesFormatterTest {
     @Test
     void shouldParsePurchaseProductNames() throws ParseException {
         // given
-        final String input = "product1,product2,product3,product4";
+        final String input = "product1, product2, product3, product4";
         final List<String> expectedProductNames = List.of("product1", "product2", "product3", "product4");
 
 

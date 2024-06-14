@@ -17,6 +17,7 @@ public record CategoryDataLoader(CategoryService categoryService) implements App
                 new Category(3L, "Home"),
                 new Category(4L, "Garden"),
                 new Category(5L, "Sport"));
+                new Category(6L, "Music");
         categoryService.saveAll(initialCategories);
     }
 }
