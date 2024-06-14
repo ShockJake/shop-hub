@@ -11,6 +11,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="/scripts/initializers/cart.js" type="module"></script>
+    <link rel="stylesheet" href="/css/image-size.css">
 </head>
 
 <body class="bg-body-tertiary d-flex flex-column min-vh-100">
@@ -130,8 +131,9 @@
         <div class="row bg-white">
             <div class="col-md-4 mb-3" th:each="product: ${topProducts}">
                 <div class="card rounded shadow">
-                    <a th:href="'/product/' + ${product.id}" href="#"><img th:src="${product.imageUrl}"
-                                                                           class="card-img-top p-2" alt="Product Image"></a>
+                    <a th:href="'/product/' + ${product.id}" href="#">
+                        <img th:src="${product.imageUrl}" class="card-img-top object-fit-contain image-max-size p-2" alt="Product Image">
+                    </a>
                     <div class="card-body">
                         <a class="link-dark" th:href="'/product/' + ${product.id}" href="#">
                             <h5 class="card-title" th:text="${product.name}"></h5>
