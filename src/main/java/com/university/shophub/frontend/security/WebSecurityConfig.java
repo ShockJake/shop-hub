@@ -16,7 +16,7 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 public class WebSecurityConfig {
     private final String[] publicPages = new String[]{"/**", "/svg/**", "/script/**", "/css/**"};
     private final String[] privateAdminPages = new String[]{"/management/**"};
-    private final String[] privateSellerPages = new String[]{"product/create/**"};
+    private final String[] privateSellerPages = new String[]{"product/create/**", "/product/edit/**"};
     private final String[] requireLoginPages = new String[]{"/cart/**", "/payment/**"};
     private final String[] noCSRFProtectionPages = new String[]{};
 
