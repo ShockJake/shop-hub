@@ -10,6 +10,7 @@ import com.university.shophub.backend.services.UserService;
 import com.university.shophub.frontend.payloads.CreateProductPayload;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,11 @@ public record ProductController(ProductService productService, CategoryService c
 
     @GetMapping("/categories/{category}")
     public String getProductByCategory(@PathVariable @NotNull String category, Model model) {
-        List<Product> products = productService.getProductByCategory(category);
+        List<Product> products = productService.getProductByCategory(StringUtils.capitalize(category));
         model.addAttribute("products", products);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("currentCategory", category);
+
         return "products";
     }
 

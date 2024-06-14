@@ -133,7 +133,7 @@
                 </div>
                 <div class="col-md-4" th:each="product: ${products}">
                     <div class="card">
-                        <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image">
+                        <img th:src="${product.imageUrl}" width="300" height="300" class="card-img-top" alt="Product Image">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${product.name}"></h5>
                             <h5 class="card-title" th:text="${product.price} + '$'"></h5>

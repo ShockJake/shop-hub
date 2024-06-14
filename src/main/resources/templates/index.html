@@ -131,7 +131,7 @@
             <div class="col-md-4 mb-3" th:each="product: ${topProducts}">
                 <div class="card rounded shadow">
                     <a th:href="'/product/' + ${product.id}" href="#"><img th:src="${product.imageUrl}"
-                                                                           class="card-img-top p-2" alt="Product Image"></a>
+                                                                           width="300" height="300" class="card-img-top p-2" alt="Product Image"></a>
                     <div class="card-body">
                         <a class="link-dark" th:href="'/product/' + ${product.id}" href="#">
                             <h5 class="card-title" th:text="${product.name}"></h5>
