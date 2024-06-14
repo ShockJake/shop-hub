@@ -199,7 +199,9 @@
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-sm" th:each="item : ${cartItems}">
                         <div>
-                            <h6 class="my-0" th:text="${item.name}"></h6>
+                            <a class="link-dark" th:href="'/product/' + ${item.id}" href="#"><h6 class="my-0"
+                                                                                                 th:text="${item.name}"></h6>
+                            </a>
                             <small class="text-body-secondary" th:text="${item.sellerName}"></small>
                         </div>
                         <span class="text-body-secondary" th:text="'$' + ${item.price}"></span>
@@ -214,7 +216,8 @@
 
                 <form class="card p-2">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Promo code">
+                        <label for="reedem"></label>
+                        <input type="text" id="reedem" class="form-control" placeholder="Promo code">
                         <button type="submit" class="btn btn-secondary">Redeem</button>
                     </div>
                 </form>
@@ -232,11 +235,11 @@
                 <form class="needs-validation" id="deliveryForm" novalidate="" th:action="@{/payment/pay}"
                       th:object="${deliveryAddress}"
                       method="POST">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="firstName" class="form-label">First name</label>
-                            <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="" value="" required>
+                            <input type="text" th:field="*{firstName}" class="form-control" id="firstName"
+                                   placeholder="" value="" required>
                             <div class="invalid-feedback">
                                 Valid first name is required.
                             </div>
@@ -244,7 +247,8 @@
 
                         <div class="col-sm-6">
                             <label for="lastName" class="form-label">Last name</label>
-                            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="" value="" required>
+                            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder=""
+                                   value="" required>
                             <div class="invalid-feedback">
                                 Valid last name is required.
                             </div>
@@ -259,7 +263,8 @@
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                                     </svg>
                                 </span>
-                                <input type="text" th:field="*{userName}" class="form-control" id="username" placeholder="Username"
+                                <input type="text" th:field="*{userName}" class="form-control" id="username"
+                                       placeholder="Username"
                                        required>
                                 <div class="invalid-feedback">
                                     Your username is required.
@@ -272,7 +277,8 @@
                                     class="text-body-secondary">(Optional)</span></label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input type="email" th:field="*{userEmail}" class="form-control" id="email" placeholder="you@example.com">
+                                <input type="email" th:field="*{userEmail}" class="form-control" id="email"
+                                       placeholder="you@example.com">
                             </div>
                             <div class="invalid-feedback">
                                 Please enter a valid email address for shipping updates.
@@ -290,7 +296,8 @@
                                               d="M12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5"/>
                                     </svg>
                                 </span>
-                                <input type="tel" th:field="*{phoneNumber}" class="form-control" id="phone" placeholder="+48 000 000 000"
+                                <input type="tel" th:field="*{phoneNumber}" class="form-control" id="phone"
+                                       placeholder="+48 000 000 000"
                                        pattern="^(?:\+48)?\s?(?:\d{3}[\s-]?){2}\d{3}$" required>
                             </div>
                             <div class="invalid-feedback">
@@ -307,9 +314,11 @@
                                         <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
                                     </svg>
                                 </span>
-                                <input type="text" th:field="*{street}" id="addressStreet" aria-label="Street" placeholder="Main St"
+                                <input type="text" th:field="*{street}" id="addressStreet" aria-label="Street"
+                                       placeholder="Main St"
                                        class="form-control" required>
-                                <input type="text" th:field="*{homeNumber}" id="addressHome" aria-label="Home number" placeholder="57C"
+                                <input type="text" th:field="*{homeNumber}" id="addressHome" aria-label="Home number"
+                                       placeholder="57C"
                                        class="form-control" required>
                             </div>
                             <div class="invalid-feedback">
