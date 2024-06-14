@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="/css/modal-fix.css" rel="stylesheet">
     <script src="/scripts/initializers/account.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/scripts/initializers/payment.js" type="module"></script>
 </head>
 
@@ -515,6 +516,43 @@
             <a href="/account/purchases">All purchases</a>
         </small>
     </div>
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+            </svg>
+            Revenue & Expenses
+        </h6>
+        <div class="container">
+            <div class="row">
+                <div style="width: 50%; margin: auto;">
+                    <canvas id="myBarChart"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Product name</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="transaction : ${transactions}">
+                            <td th:text="${transaction.amount}" th:style="${transaction.amount > 0 ? 'color : green' : 'color : red'}"></td>
+                            <td th:text="${transaction.productName}"></td>
+                            <td th:text="${transaction.date}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer class="footer-section bg-dark text-white mt-auto">
@@ -537,5 +575,95 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var transactions = /*[[${transactions}]]*/ [];
+    /*]]>*/
+
+    var ctx = document.getElementById('myBarChart').getContext('2d');
+
+    var revenue_transactions_by_month = groupTransactionsByMonth(transactions, true);
+    var expense_transactions_by_month = groupTransactionsByMonth(transactions, false);
+    var months = getLast6Months();
+
+    var revenue_data = [
+        revenue_transactions_by_month[months[0]],
+        revenue_transactions_by_month[months[1]],
+        revenue_transactions_by_month[months[2]],
+        revenue_transactions_by_month[months[3]],
+        revenue_transactions_by_month[months[4]],
+        revenue_transactions_by_month[months[5]]
+    ]
+
+    var expense_data = [
+        expense_transactions_by_month[months[0]],
+        expense_transactions_by_month[months[1]],
+        expense_transactions_by_month[months[2]],
+        expense_transactions_by_month[months[3]],
+        expense_transactions_by_month[months[4]],
+        expense_transactions_by_month[months[5]]
+    ]
+
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Revenue',
+                data: revenue_data,
+                backgroundColor: 'green',
+                borderColor: 'black',
+                borderWidth: 1
+            },
+            {
+                label: 'Expenses',
+                data: expense_data,
+                backgroundColor: 'red',
+                borderColor: 'black',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function getLast6Months() {
+        const months = [];
+        const currentDate = new Date();
+        currentDate.setMonth(currentDate.getMonth() - 5);
+
+        for (let i = 0; i < 6; i++) {
+            const month = currentDate.toLocaleString('en-US', { month: 'long' });
+
+            months.push(`${month}`);
+            currentDate.setMonth(currentDate.getMonth() + 1);
+        }
+
+        return months;
+    }
+
+    function groupTransactionsByMonth(transactions, isRevenue) {
+        const grouped = {};
+        transactions.map(transaction => {
+            if ((isRevenue && transaction.amount >= 0) || (!isRevenue && transaction.amount < 0)) {
+                const date = new Date(transaction.date);
+                const month = date.toLocaleString('en-US', { month: 'long' });
+                const toAdd = transaction.amount < 0 ? -transaction.amount : transaction.amount;
+                if (grouped[month] === undefined) {
+                    grouped[month] = toAdd;
+                }
+                else {
+                    grouped[month] = grouped[month] + toAdd;
+                }
+            }
+        })
+        return grouped;
+    }
+</script>
 </body>
 </html>

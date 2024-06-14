@@ -1,4 +1,6 @@
 package com.university.shophub.backend.models;
 
-public record Transaction(String userId, String sellerName, Double amount) {
+import java.time.LocalDate;
+
+public record Transaction(String userId, String sellerName, String productName, Double amount, LocalDate date) {
 }

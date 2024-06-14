@@ -47,13 +47,26 @@ public class CartService {
         cartRepository.saveAll(carts);
     }
 
-    public void addProductToCart(String userId, String productId) {
+    public void addProductsToCart(String userId, String productId, Long quantity) {
         Cart cart = cartRepository.findByUserId(userId);
         if (nonNull(cart)) {
             List<Product> productList = cart.getProductList();
-            productList.add(productService.getProductById(productId));
+            for (int i = 0; i < quantity; i++)
+                productList.add(productService.getProductById(productId));
             cart.setProductList(productList);
 
+            cartRepository.save(cart);
+        }
+    }
+
+    public void deleteProductsFromCart(String userId, String productId, Long quantity) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if (nonNull(cart)) {
+            List<Product> productList = cart.getProductList();
+            Product productById = productService.getProductById(productId);
+            for (int i = 0; i < quantity; i++)
+                productList.remove(productById);
+            cart.setProductList(productList);
             cartRepository.save(cart);
         }
     }
@@ -63,7 +76,7 @@ public class CartService {
         if (nonNull(cart)) {
             List<Product> productList = cart.getProductList();
             Product productById = productService.getProductById(productId);
-            productList.removeIf(product -> product.getId().equals(productById.getId()));
+            productList.remove(productById);
             cart.setProductList(productList);
             cartRepository.save(cart);
         }

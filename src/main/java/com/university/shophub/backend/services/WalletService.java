@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,7 +37,7 @@ public class WalletService {
 
     @Transactional
     public List<Transaction> manageTransaction(List<Product> toBuy, String userId) {
-        List<Transaction> transactions = new ArrayList<>();
+        List<Transaction> userTransactions = new ArrayList<>();
         Wallet wallet = walletRepository.findByUserId(userId);
 
         BigDecimal totalPrice = toBuy.stream().map(Product::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -45,7 +46,7 @@ public class WalletService {
         }
 
         toBuy.forEach(product -> {
-            transactions.add(new Transaction(userId, product.getSellerName(), product.getPrice().doubleValue()));
+            userTransactions.add(new Transaction(userId, product.getSellerName(), product.getName(), -product.getPrice().doubleValue(), LocalDate.now()));
             wallet.setBalance(wallet.getBalance() - product.getPrice().doubleValue());
             log.info("Managing product: {}", product);
             User seller = userRepository
@@ -53,16 +54,19 @@ public class WalletService {
                     .orElseThrow(() -> new NoSuchElementException("Seller not found"));
             Wallet sellerWallet = walletRepository.findByUserId(seller.getId());
             sellerWallet.setBalance(sellerWallet.getBalance() + product.getPrice().doubleValue());
+            List<Transaction> history = sellerWallet.getHistory();
+            history.add(new Transaction(userId, product.getSellerName(), product.getName(), product.getPrice().doubleValue(), LocalDate.now()));
+
             walletRepository.save(sellerWallet);
         });
 
-        if (!transactions.isEmpty()) {
+        if (!userTransactions.isEmpty()) {
             List<Transaction> history = wallet.getHistory();
-            history.addAll(transactions);
+            history.addAll(userTransactions);
         }
 
         walletRepository.save(wallet);
-        return transactions;
+        return userTransactions;
     }
 
     public Wallet createWallet(Wallet wallet) {

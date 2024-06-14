@@ -8,10 +8,12 @@ import lombok.*;
 public class DeliveryAddressPayload {
     private String firstName;
     private String lastName;
+    private String userName;
+    private String userEmail;
     private String phoneNumber;
-    private String postalCode;
-    private String country;
     private String street;
-    private String city;
     private String homeNumber;
+    private String country;
+    private String city;
+    private String postalCode;
 }

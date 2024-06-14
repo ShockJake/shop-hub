@@ -12,11 +12,11 @@ import java.util.List;
 public record CategoryDataLoader(CategoryService categoryService) implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<Category> initialCategories = List.of(new Category(1L, "fashion"),
-                new Category(2L, "wealth"),
-                new Category(3L, "home"),
-                new Category(4L, "garden"),
-                new Category(5L, "sport"));
+        List<Category> initialCategories = List.of(new Category(1L, "Fashion"),
+                new Category(2L, "Wealth"),
+                new Category(3L, "Home"),
+                new Category(4L, "Garden"),
+                new Category(5L, "Sport"));
         categoryService.saveAll(initialCategories);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -19,8 +20,10 @@ public record MainController(ProductService productService, CategoryService cate
 
     @RequestMapping({"/", "/home"})
     public String indexPage(Model model) {
+        List<Product> products = productService.getAllProducts();
+        Collections.shuffle(products);
         model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("topProducts", productService.getAllProducts());
+        model.addAttribute("topProducts", products.subList(0, Math.min(products.size(), 10)));
         return "index";
     }
 

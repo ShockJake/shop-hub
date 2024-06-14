@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class CreateProductPayload {
     private String name;
     private String description;

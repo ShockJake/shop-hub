@@ -3,12 +3,15 @@ package com.university.shophub.frontend.controllers;
 import com.google.common.collect.Streams;
 import com.university.shophub.backend.models.Product;
 import com.university.shophub.backend.models.TechnicalDetail;
+import com.university.shophub.backend.models.User;
 import com.university.shophub.backend.services.CategoryService;
 import com.university.shophub.backend.services.ProductService;
 import com.university.shophub.backend.services.UserService;
 import com.university.shophub.frontend.payloads.CreateProductPayload;
+import com.university.shophub.frontend.payloads.EditProductPayload;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -26,18 +29,23 @@ public record ProductController(ProductService productService, CategoryService c
 
     @GetMapping("/{id}")
     public String getProductById(@PathVariable @NotNull String id, Model model) {
-        Product productById = productService.getProductById(id);
-        log.trace("Found product with id {}", productById);
-        model.addAttribute("product", productById);
+        final Product product = productService.getProductById(id);
+        User seller = userService.getUserByEmail(product.getSellerName());
+        log.trace("Found product with id {}", product);
+        model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("sellerId", seller.getId());
+        model.addAttribute("sellerName", seller.getName());
         return "product";
     }
 
     @GetMapping("/categories/{category}")
     public String getProductByCategory(@PathVariable @NotNull String category, Model model) {
-        List<Product> products = productService.getProductByCategory(category);
+        List<Product> products = productService.getProductByCategory(StringUtils.capitalize(category));
         model.addAttribute("products", products);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("currentCategory", category);
+
         return "products";
     }
 
@@ -46,11 +54,6 @@ public record ProductController(ProductService productService, CategoryService c
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("product", new Product());
         return "create-product";
-    }
-
-    @ModelAttribute
-    public CreateProductPayload getCreateProductPayload() {
-        return new CreateProductPayload("", "", null, null, null);
     }
 
     @PostMapping(path = "/create/new", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -63,18 +66,35 @@ public record ProductController(ProductService productService, CategoryService c
         return "redirect:/product/create/new?productCreated";
     }
 
-    @GetMapping("/edit/{id}")
-    public String getEditProduct(Model model, @PathVariable String id) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
-        model.addAttribute("technicalDetails", product.getTechnicalDetails());
+    @GetMapping("/edit/{productId}")
+    public String editProduct(@PathVariable @NotNull String productId, Model model) {
+        Product productById = productService.getProductById(productId);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("imageUrl", productById.getImageUrl());
+        model.addAttribute("editProductPayload",
+                new EditProductPayload(productById.getId(),
+                        productById.getName(),
+                        productById.getSellerName(),
+                        productById.getDescription(),
+                        productById.getQuantity(),
+                        productById.getCategoryId(),
+                        productById.getPrice().longValue(),
+                        null,
+                        productById.getTechnicalDetails()));
         return "edit-product";
     }
 
-    @PutMapping("/edit/{id}")
-    public String editProduct(Model model, @PathVariable String id) {
-        model.addAttribute("categories", categoryService.getAllCategories());
-        return "redirect:product";
+    @PatchMapping(path = "/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String editProduct(@ModelAttribute EditProductPayload productPayload,
+                              @RequestParam(value = "technicalDetail[]") String[] technicalDetails,
+                              @RequestParam(value = "detailDescription[]") String[] detailDescriptions,
+                              Authentication authentication) {
+
+        return "redirect:/product/";
+    }
+
+    @ModelAttribute
+    public CreateProductPayload getCreateProductPayload() {
+        return new CreateProductPayload("", "", null, null, null);
     }
 }
