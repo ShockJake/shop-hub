@@ -43,7 +43,7 @@ public record CartService(CartRepository cartRepository, ProductService productS
         Cart cart = cartRepository.findByUserId(userId);
         if (nonNull(cart)) {
             List<Product> productList = cart.getProductList();
-            for(int i = 0; i < quantity; i++)
+            for (int i = 0; i < quantity; i++)
                 productList.add(productService.getProductById(productId));
             cart.setProductList(productList);
 
@@ -56,7 +56,7 @@ public record CartService(CartRepository cartRepository, ProductService productS
         if (nonNull(cart)) {
             List<Product> productList = cart.getProductList();
             Product productById = productService.getProductById(productId);
-            for(int i = 0; i < quantity; i++)
+            for (int i = 0; i < quantity; i++)
                 productList.remove(productById);
             cart.setProductList(productList);
             cartRepository.save(cart);
