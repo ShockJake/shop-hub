@@ -366,7 +366,7 @@
             <div class="text-center" th:if="${products.size() == 0}">
                 <h6 class="display-6 mx-auto">Nothing to show</h6>
             </div>
-            <div class="d-flex text-body-secondary pt-3" th:if="${products.size() > 0}" th:each="product : ${products}">
+            <div class="d-flex text-body-secondary pt-3" th:unless="${products.size() == 0}" th:each="product : ${products}">
                 <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
                      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>

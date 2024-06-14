@@ -129,7 +129,7 @@
                 </div>
                 <div class="row">
                     <p class="fs-4">
-                        <b >Seller:</b>
+                        <b>Seller:</b>
                         <a class="link-secondary" th:href="'/seller/' + ${sellerId}" th:text="${sellerName}"></a>
                     </p>
                 </div>
@@ -142,13 +142,31 @@
                         </p>
                     </div>
                     <div class="col">
-                        <label for="quantity" class="form-label">Select quantity:</label>
-                        <input type="number" class="form-control" id="quantity" value="1"
-                               th:max="${product.quantity}">
+                        <div th:if="${#authorization.expression('hasRole(''SELLER'')')}">
+                            <label for="quantity" class="form-label">Currently in stock:</label>
+                            <input type="number" class="form-control" value="1" th:value="${product.quantity}" disabled>
+                        </div>
+                        <div th:unless="${#authorization.expression('hasRole(''SELLER'')')}">
+                            <label for="quantity" class="form-label">Select quantity:</label>
+                            <input type="number" class="form-control" id="quantity" value="1"
+                                   th:max="${product.quantity}">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="btn-group" role="group" aria-label="Default button group">
+                    <div th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="btn-group" role="group"
+                         aria-label="Seller button group">
+                        <a class="btn btn-warning"
+                           id="editProductButton" th:href="'/product/edit/' + ${product.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-cart" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                            </svg>
+                            Edit product
+                        </a>
+                    </div>
+                    <div th:unless="${#authorization.expression('hasRole(''SELLER'')')}" class="btn-group" role="group"
+                         aria-label="Default button group">
                         <button type="submit" th:onclick="handleAddToCart([[${product.id}]])"
                                 class="btn btn-primary"
                                 id="addToCartButton">

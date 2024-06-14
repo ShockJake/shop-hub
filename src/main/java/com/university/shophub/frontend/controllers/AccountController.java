@@ -1,10 +1,7 @@
 package com.university.shophub.frontend.controllers;
 
 import com.university.shophub.backend.models.*;
-import com.university.shophub.backend.services.CategoryService;
-import com.university.shophub.backend.services.RequestService;
-import com.university.shophub.backend.services.UserService;
-import com.university.shophub.backend.services.WalletService;
+import com.university.shophub.backend.services.*;
 import com.university.shophub.frontend.payloads.ChangePasswordPayload;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -12,17 +9,19 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Controller
 @RequestMapping("/account")
 public record AccountController(UserService userService, CategoryService categoryService, RequestService requestService,
-                                WalletService walletService) {
+                                WalletService walletService, ProductService productService) {
     @GetMapping
     public String account(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -37,7 +36,8 @@ public record AccountController(UserService userService, CategoryService categor
             }
         } catch (Exception e) {/*ignored*/}
 
-        List<Product> products = new ArrayList<>();
+        List<Product> products = productService.getProductsBySellerName(user.getEmail());
+
         Wallet wallet = walletService.findByUserId(user.getId());
         model.addAttribute("id", user.getId());
         model.addAttribute("username", user.getName());

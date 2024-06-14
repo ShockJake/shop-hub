@@ -112,93 +112,91 @@
     </div>
 </nav>
 
-<section class="product-section py-5">
-    <div class="container">
-        <div th:if="${param.productCreated}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>New product created!</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <form class="form-floating space-y-6" th:action="@{/product/create/new}" th:object="${createProductPayload}"
-              enctype="multipart/form-data" method="POST">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label"><h3>Upload your image</h3></label>
-                        <input class="form-control" type="file" id="formFile" accept="image/*" th:field="*{imageFile}">
-                    </div>
-                    <img src="https://placehold.jp/800x600.png" class="img-fluid rounded" id="imagePreview"
-                         alt="Product Image">
+<div class="container">
+    <div th:if="${param.productCreated}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>New product created!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <form class="form-floating space-y-6" th:action="@{/product/create/new}" th:object="${createProductPayload}"
+          enctype="multipart/form-data" method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="formFile" class="form-label"><h3>Upload your image</h3></label>
+                    <input class="form-control" type="file" id="formFile" accept="image/*" th:field="*{imageFile}">
                 </div>
-                <div class="col-md-6 p-3 border shadow-sm">
-                    <div class="mb-3">
-                        <label for="productName" class="form-label"><h4>Product name</h4></label>
-                        <input type="text" class="form-control" id="productName" placeholder="Product name"
-                               th:field="*{name}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label"><h4>Price</h4></label>
-                        <input type="number" class="form-control" id="price" value="0" th:field="*{price}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label"><h4>Quantity</h4></label>
-                        <input type="number" class="form-control" id="quantity" value="0">
-                    </div>
-                    <div>
-                        <label for="category" class="form-label"><h4>Category</h4></label>
-                        <select class="form-select form-select" id="category" aria-label="Default select example"
-                                th:field="*{category}">
-                            <option th:each="category: ${categories}" th:text="${category.name}"
-                                    th:value="${category.id}"></option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-4">Add product</button>
+                <img src="https://placehold.jp/800x600.png" class="img-fluid rounded" id="imagePreview"
+                     alt="Product Image">
+            </div>
+            <div class="col-md-6 p-3 border shadow-sm">
+                <div class="mb-3">
+                    <label for="productName" class="form-label"><h4>Product name</h4></label>
+                    <input type="text" class="form-control" id="productName" placeholder="Product name"
+                           th:field="*{name}">
                 </div>
-                <div class="row mt-5 ">
-                    <div class="col-md-6 border">
-                        <h3>About this item:</h3>
-                        <p class="product-description form-floating">
+                <div class="mb-3">
+                    <label for="price" class="form-label"><h4>Price</h4></label>
+                    <input type="number" class="form-control" id="price" value="0" th:field="*{price}">
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label"><h4>Quantity</h4></label>
+                    <input type="number" class="form-control" id="quantity" value="0">
+                </div>
+                <div>
+                    <label for="category" class="form-label"><h4>Category</h4></label>
+                    <select class="form-select form-select" id="category" aria-label="Default select example"
+                            th:field="*{category}">
+                        <option th:each="category: ${categories}" th:text="${category.name}"
+                                th:value="${category.id}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Add product</button>
+            </div>
+            <div class="row mt-5 ">
+                <div class="col-md-6 border">
+                    <h3>About this item:</h3>
+                    <p class="product-description form-floating">
                             <textarea class="form-control" placeholder="Enter product description" id="floatingTextarea"
                                       style="height: 100px" th:field="*{description}"></textarea>
-                            <label for="floatingTextarea">Enter product description</label>
-                        </p>
-                        <h3>Technical Details:</h3>
-                        <p class="product-technical"></p>
-                        <div class="input-table" id="input-table">
-                            <table class="table table-striped table-bordered border" id="technical-details1">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" class="form-control" id="technicalDetail"
-                                               name="technicalDetail" placeholder="Enter parameter" required>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="detailDescription"
-                                               name="detailsDescription" placeholder="Enter description" required>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-success" onclick="addTableRow()">
-                                            Add
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                      d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <table class="table table-striped table-bordered border" id="technical-details">
+                        <label for="floatingTextarea">Enter product description</label>
+                    </p>
+                    <h3>Technical Details:</h3>
+                    <p class="product-technical"></p>
+                    <div class="input-table" id="input-table">
+                        <table class="table table-striped table-bordered border" id="technical-details1">
                             <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" id="technicalDetail"
+                                           name="technicalDetail" placeholder="Enter parameter" required>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="detailDescription"
+                                           name="detailsDescription" placeholder="Enter description" required>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success" onclick="addTableRow()">
+                                        Add
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
+                    <table class="table table-striped table-bordered border" id="technical-details">
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
-    </div>
-</section>
+        </div>
+    </form>
+</div>
 
 <footer class="footer-section bg-dark text-white mt-auto">
     <div class="container">
