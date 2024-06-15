@@ -84,15 +84,6 @@ public record ProductController(ProductService productService, CategoryService c
         return "edit-product";
     }
 
-    @PatchMapping(path = "/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String editProduct(@ModelAttribute EditProductPayload productPayload,
-                              @RequestParam(value = "technicalDetail[]") String[] technicalDetails,
-                              @RequestParam(value = "detailDescription[]") String[] detailDescriptions,
-                              Authentication authentication) {
-
-        return "redirect:/product/";
-    }
-
     @ModelAttribute
     public CreateProductPayload getCreateProductPayload() {
         return new CreateProductPayload("", "", null, null, null);

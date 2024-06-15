@@ -4,16 +4,24 @@ import com.university.shophub.backend.models.Product;
 import com.university.shophub.backend.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/products")
 public record ProductControllerAPI(ProductService productService) {
 
-    @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable String id, @RequestBody Product product) {
-        log.info("Updating product with id: {}", id);
-        return productService.updateProduct(product);
+    @GetMapping("/{id}")
+    public Product getProduct(@PathVariable String id) {
+        log.info("Get product by id: {}", id);
+        return productService.getProductById(id);
+    }
+
+    @PatchMapping()
+    public RedirectView updateProduct(@RequestBody Product product) {
+        log.info("Updating product with body: {}", product.getId());
+        productService.updateProduct(product);
+        return new RedirectView("/product/" + product.getId() + "?productUpdated");
     }
 
     @DeleteMapping("/{id}")
