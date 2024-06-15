@@ -23,7 +23,7 @@ public record MainController(ProductService productService, CategoryService cate
         List<Product> products = productService.getAllProducts();
         Collections.shuffle(products);
         model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("topProducts", products.subList(0, Math.min(products.size(), 10)));
+        model.addAttribute("topProducts", products.subList(0, Math.min(products.size(), 9)));
         return "index";
     }
 
