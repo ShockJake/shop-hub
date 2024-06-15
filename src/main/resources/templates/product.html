@@ -114,7 +114,11 @@
 </nav>
 
 <main class="container shadow-sm">
-    <div class="row my-2">
+    <div th:if="${param.productUpdated}" class="alert alert-success alert-dismissible fade show my-3" role="alert">
+        <strong>Product updated!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="row my-3">
         <div class="col-md-6">
             <img th:src="${product.imageUrl}" class="img-fluid" alt="Product Image">
         </div>

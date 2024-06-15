@@ -43,10 +43,11 @@ function deleteTableRow(deleteButton) {
 
 function editTableRow(editButton) {
     let tableRow = editButton.parentElement.parentElement.parentElement;
-    let dataColumn0 = tableRow.childNodes[0];
-    let dataColumn1 = tableRow.childNodes[1];
-    let isReadonlyPresent0 = dataColumn0.firstChild.getAttribute('readonly');
-    let isReadonlyPresent1 = dataColumn1.firstChild.getAttribute('readonly');
-    isReadonlyPresent0 == null ? dataColumn0.firstChild.setAttribute('readonly', true) : dataColumn0.firstChild.removeAttribute('readonly');
-    isReadonlyPresent1 == null ? dataColumn1.firstChild.setAttribute('readonly', true) : dataColumn1.firstChild.removeAttribute('readonly');
+
+    let dataColumn0 = tableRow.cells[0].querySelector('input');
+    let dataColumn1 = tableRow.cells[1].querySelector('input');
+    let isReadonlyPresent0 = dataColumn0.getAttribute('readonly');
+    let isReadonlyPresent1 = dataColumn1.getAttribute('readonly');
+    isReadonlyPresent0 == null ? dataColumn0.setAttribute('readonly', "true") : dataColumn0.removeAttribute('readonly');
+    isReadonlyPresent1 == null ? dataColumn1.setAttribute('readonly', "true") : dataColumn1.removeAttribute('readonly');
 }
