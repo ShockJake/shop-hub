@@ -46,7 +46,7 @@
                     </ul>
                 </li>
                 <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
-                    <a class="nav-link" th:href="@{p4/product/create/new}" href="#">Sell</a>
+                    <a class="nav-link" th:href="@{/p4/product/create/new}" href="#">Sell</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -62,7 +62,7 @@
                 </button>
             </form>
             <div class="d-flex justify-content-end mx-2">
-                <a class="btn btn-small btn-info" th:href="@{p4/login}" sec:authorize="isAnonymous()">Login</a>
+                <a class="btn btn-small btn-info" th:href="@{/p4/login}" sec:authorize="isAnonymous()">Login</a>
                 <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <button class="dropdown-toggle btn btn-small btn-info" id="accountDropdown"
                             role="button"
