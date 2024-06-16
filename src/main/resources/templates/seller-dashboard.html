@@ -42,12 +42,12 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li th:each="category: ${categories}"><a class="dropdown-item" href="#"
                                                                  th:text="${category.name}"
-                                                                 th:href="'/product/categories/' + ${category.name}"></a>
+                                                                 th:href="'p4/product/categories/' + ${category.name}"></a>
                         </li>
                     </ul>
                 </li>
                 <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
-                    <a class="nav-link" th:href="@{/product/create/new}" href="#">Sell</a>
+                    <a class="nav-link" th:href="@{p4/product/create/new}" href="#">Sell</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -56,12 +56,12 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
-            <form class="d-flex justify-content-end mx-3" action="#" th:action="@{/search}" method="GET">
+            <form class="d-flex justify-content-end mx-3" action="#" th:action="@{/p4/search/}" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <div class="d-flex justify-content-end mx-2">
-                <a class="btn btn-small btn-info" th:href="@{/login}" sec:authorize="isAnonymous()">Login</a>
+                <a class="btn btn-small btn-info" th:href="@{p4/login}" sec:authorize="isAnonymous()">Login</a>
                 <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <button class="dropdown-toggle btn btn-small btn-info" id="accountDropdown"
                             role="button"
@@ -95,7 +95,7 @@
                                 Management</a>
                         </div>
                         <hr class="dropdown-divider">
-                        <form th:action="@{/logout}" method="post">
+                        <form th:action="@{/p4/logout/}" method="post">
                             <div class="dropdown-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red"
                                      class="bi bi-box-arrow-right" viewBox="0 0 15 16">
@@ -137,13 +137,13 @@
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <a th:href="'/product/' + ${product.id}">
+                        <a th:href="'p4/product/' + ${product.id}">
                             <img th:src="${product.imageUrl}" class="img-fluid rounded-start" alt="...">
                         </a>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <a class="link-dark" th:href="'/product/' + ${product.id}">
+                            <a class="link-dark" th:href="'p4/product/' + ${product.id}">
                                 <h5 class="card-title" th:text="${product.name}"></h5>
                             </a>
                             <p class="card-text" th:text="${product.price} + '$'"></p>

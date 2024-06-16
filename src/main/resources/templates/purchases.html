@@ -41,12 +41,12 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li th:each="category: ${categories}"><a class="dropdown-item" href="#"
                                                                  th:text="${category.name}"
-                                                                 th:href="'/product/categories/' + ${category.name}"></a>
+                                                                 th:href="'p4/product/categories/' + ${category.name}"></a>
                         </li>
                     </ul>
                 </li>
                 <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
-                    <a class="nav-link" th:href="@{/product/create/new}" href="#">Sell</a>
+                    <a class="nav-link" th:href="@{p4/product/create/new}" href="#">Sell</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -55,14 +55,14 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
-            <form class="d-flex justify-content-end mx-3" action="#" th:action="@{/search}" method="GET">
+            <form class="d-flex justify-content-end mx-3" action="#" th:action="@{/p4/search/}" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">
                     Search
                 </button>
             </form>
             <div class="d-flex justify-content-end mx-2">
-                <a class="btn btn-small btn-info" th:href="@{/login}" sec:authorize="isAnonymous()">Login</a>
+                <a class="btn btn-small btn-info" th:href="@{p4/login}" sec:authorize="isAnonymous()">Login</a>
                 <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <button class="dropdown-toggle btn btn-small btn-info" id="accountDropdown"
                             role="button"
@@ -96,7 +96,7 @@
                                 Management</a>
                         </div>
                         <hr class="dropdown-divider">
-                        <form th:action="@{/logout}" method="post">
+                        <form th:action="@{/p4/logout/}" method="post">
                             <div class="dropdown-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red"
                                      class="bi bi-box-arrow-right" viewBox="0 0 15 16">
@@ -138,7 +138,7 @@
 
                 <p class="pb-3 mb-0 small lh-sm border-bottom">
                     <strong class="d-block text-gray-dark">
-                        <a th:text="${purchase.getSellerName()}" th:href="'/seller/' + ${purchase.getSellerId()}"></a>
+                        <a th:text="${purchase.getSellerName()}" th:href="'p4/seller/' + ${purchase.getSellerId()}"></a>
                     </strong>
                     <strong th:text="${purchase.purchaseDate.toString()}"></strong>
                     <span th:text="${{purchase.productNames}}"></span>
