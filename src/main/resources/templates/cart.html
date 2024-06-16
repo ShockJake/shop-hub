@@ -16,7 +16,7 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="/scripts/initializers/cart.js" type="module"></script>
+    <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/cart.js'" type="module"></script>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
