@@ -11,9 +11,9 @@
     <link href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/offcanvas-navbar.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link th:href="@{p4/css/modal-fix.css}" rel="stylesheet">
-    <script src="/scripts/initializers/account.js" type="module"></script>
+    <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/account.js'" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/scripts/initializers/payment.js" type="module"></script>
+    <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/payment.js'" type="module"></script>
 </head>
 
 <body style="padding-top: 0;" class="bg-body-tertiary d-flex flex-column min-vh-100">

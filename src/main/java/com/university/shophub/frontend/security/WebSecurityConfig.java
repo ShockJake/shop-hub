@@ -1,5 +1,6 @@
 package com.university.shophub.frontend.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,9 @@ public class WebSecurityConfig {
     private final String[] requireLoginPages = new String[]{"/cart/**", "/payment/**"};
     private final String[] noCSRFProtectionPages = new String[]{};
 
+    @Value("${shop_hub.server.prefix}")
+    private String loginPrefix;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/**")
@@ -30,11 +34,11 @@ public class WebSecurityConfig {
                         .requestMatchers(privateSellerPages).hasRole("SELLER")
                         .requestMatchers(publicPages).permitAll()
                         .anyRequest().denyAll())
-                .formLogin(form -> form.loginPage("/login")
+                .formLogin(form -> form.loginPage(loginPrefix + "/login")
                         .permitAll()
-                        .defaultSuccessUrl("/"))
-                .logout(logout -> logout.logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .defaultSuccessUrl(loginPrefix + "/"))
+                .logout(logout -> logout.logoutUrl(loginPrefix + "/logout")
+                        .logoutSuccessUrl(loginPrefix + "/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
                 .csrf(csrf -> csrf.ignoringRequestMatchers(noCSRFProtectionPages));

@@ -10,7 +10,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="/css/modal-fix.css" rel="stylesheet">
-    <script src="/scripts/initializers/cart.js" type="module"></script>
+    <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/cart.js'" type="module"></script>
 </head>
 
 <body style="padding-top: 0;" class="bg-body-tertiary d-flex flex-column min-vh-100">
