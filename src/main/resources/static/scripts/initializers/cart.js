@@ -5,12 +5,12 @@ import {
 
 async function handleAddToCart(productId) {
     await addToCart(productId);
-    window.location.href = '/cart';
+    alert('Product added to cart');
 }
 
 async function handleDeleteFromCart(productId) {
     await deleteFromCart(productId);
-    window.location.href = '/cart';
+    alert('Product deleted from cart');
 }
 
 window.handleAddToCart = handleAddToCart;
