@@ -1,16 +1,32 @@
 version: '3.8'
 services:
   mongodb:
+    container_name: mongodb
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=1234
     volumes:
       - mongo-data:/shophub_db/db
-
-# Define named volumes
+  app:
+    container_name: app
+    image: shophub:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:80:8080"
+    environment:
+      - SERVER_SERVLET_CONTEXT_PATH=/p4
+    networks:
+      - db-network
+    depends_on:
+      - mongodb
 volumes:
   mongo-data:
     driver: local
+networks:
+  db-network:
+    driver: bridge
