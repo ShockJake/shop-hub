@@ -1,5 +1,9 @@
 export function getServerUrl() {
-    return window.location.origin
+    return window.location.origin + getContextPath()
+}
+
+export function getContextPath() {
+    return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2))
 }
 
 export function resolveCSRFToken() {
