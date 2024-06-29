@@ -25,7 +25,7 @@ public record AccountController(UserService userService, CategoryService categor
     @GetMapping
     public String account(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login";
+            return "redirect:/p4/login";
         }
         final User user = userService.getUserByEmail(authentication.getName());
 
@@ -55,7 +55,7 @@ public record AccountController(UserService userService, CategoryService categor
     @GetMapping("/purchases")
     public String purchases(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login";
+            return "redirect:/p4/login";
         }
         final User user = userService.getUserByEmail(authentication.getName());
         user.setPassword("hidden");
@@ -82,7 +82,7 @@ public record AccountController(UserService userService, CategoryService categor
     public String createUser(@Valid User user, Model model) {
         try {
             userService.registerNewUser(user);
-            return "redirect:/account";
+            return "redirect:/p4/account";
         } catch (Exception e) {
             log.error(e.getMessage());
             model.addAttribute("error", e.getMessage());
@@ -102,6 +102,6 @@ public record AccountController(UserService userService, CategoryService categor
         }
         userService.updatePassword(authentication.getName(), passwordPayload);
         authentication.setAuthenticated(false);
-        return "redirect:/account";
+        return "redirect:/p4/account";
     }
 }

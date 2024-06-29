@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import static jakarta.servlet.DispatcherType.ERROR;
 import static jakarta.servlet.DispatcherType.FORWARD;
@@ -34,10 +35,10 @@ public class WebSecurityConfig {
                         .requestMatchers(privateSellerPages).hasRole("SELLER")
                         .requestMatchers(publicPages).permitAll()
                         .anyRequest().denyAll())
-                .formLogin(form -> form.loginPage("/login")
+                .formLogin(form -> form.loginPage("/login/")
                         .permitAll()
                         .defaultSuccessUrl(loginPrefix + "/"))
-                .logout(logout -> logout.logoutUrl(loginPrefix + "/logout/")
+                .logout(logout -> logout.logoutUrl("/logout/")
                         .logoutSuccessUrl(loginPrefix + "/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
@@ -45,6 +46,16 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public CommonsRequestLoggingFilter logFilter() {
+        CommonsRequestLoggingFilter filter = new CommonsRequestLoggingFilter();
+        filter.setIncludeQueryString(true);
+        filter.setIncludePayload(true);
+        filter.setMaxPayloadLength(10000);
+        filter.setIncludeHeaders(false);
+        filter.setAfterMessagePrefix("REQUEST DATA: ");
+        return filter;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

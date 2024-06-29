@@ -29,30 +29,6 @@ public record CartController(CartService cartService, UserService userService, P
         return "cart";
     }
 
-    @PostMapping("/{id}")
-    public String addProducts(@PathVariable @NonNull String id, @RequestParam(name = "quantity") @NonNull @Min(1) Long quantity, Model model, Authentication authentication) {
-        log.debug("Receiving cart data: {}, {}", quantity, id);
 
-        final User user = userService.getUserByEmail(authentication.getName());
-        cartService.addProductsToCart(user.getId(), id, quantity);
-        model.addAttribute("products", cartService.getProducts(user.getId()));
-        model.addAttribute("totalPrice", cartService.getTotalPrice(user.getId()));
-        model.addAttribute("categories", categoryService.getAllCategories());
-
-        return "cart";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable @NonNull String id, @RequestParam(name = "quantity") @NonNull @Min(1) Long quantity, Model model, Authentication authentication) {
-        log.debug("Deleting cart data: {}, {}", quantity, id);
-
-        final User user = userService.getUserByEmail(authentication.getName());
-        cartService.deleteProductsFromCart(user.getId(), id, quantity);
-        model.addAttribute("products", cartService.getProducts(user.getId()));
-        model.addAttribute("totalPrice", cartService.getTotalPrice(user.getId()));
-        model.addAttribute("categories", categoryService.getAllCategories());
-
-        return "cart";
-    }
 
 }

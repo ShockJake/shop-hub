@@ -48,7 +48,7 @@ public record PaymentController(WalletService walletService, CartService cartSer
         purchaseService.savePurchases(productsToBuy, user);
 
         shippingDetailService.saveDetails(shippingDetails, productsToBuy, user.getId());
-        return "redirect:/home";
+        return "redirect:/p4/home";
     }
 }
 

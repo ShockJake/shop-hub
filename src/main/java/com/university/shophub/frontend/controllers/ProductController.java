@@ -63,7 +63,7 @@ public record ProductController(ProductService productService, CategoryService c
                                  Authentication authentication) {
         List<TechnicalDetail> technicalDetail = Streams.zip(Arrays.stream(technicalDetails), Arrays.stream(detailDescriptions), TechnicalDetail::new).toList();
         productService.addProduct(productPayload, technicalDetail, authentication.getName());
-        return "redirect:/product/create/new?productCreated";
+        return "redirect:/p4/product/create/new?productCreated";
     }
 
     @GetMapping("/edit/{productId}")
