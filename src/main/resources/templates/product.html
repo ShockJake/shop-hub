@@ -155,7 +155,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="btn-group" role="group"
+                    <div th:if="${isOwner}" class="btn-group" role="group"
                          aria-label="Seller button group">
                         <a class="btn btn-warning"
                            id="editProductButton" th:href="@{'/p4/product/edit/' + ${product.id}}">

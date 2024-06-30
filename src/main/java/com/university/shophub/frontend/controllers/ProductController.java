@@ -28,14 +28,16 @@ public record ProductController(ProductService productService, CategoryService c
                                 UserService userService) {
 
     @GetMapping("/{id}")
-    public String getProductById(@PathVariable @NotNull String id, Model model) {
+    public String getProductById(@PathVariable @NotNull String id, Model model, Authentication authentication) {
         final Product product = productService.getProductById(id);
         User seller = userService.getUserByEmail(product.getSellerName());
+
         log.trace("Found product with id {}", product);
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("sellerId", seller.getId());
         model.addAttribute("sellerName", seller.getName());
+        model.addAttribute("isOwner", seller.getEmail().equals(authentication.getName()));
         return "product";
     }
 
