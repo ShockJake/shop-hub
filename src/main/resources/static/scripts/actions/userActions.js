@@ -47,8 +47,8 @@ export async function requestSellerRole() {
         requestType: "SELLER_ROLE_REQUEST",
         requestStatus: "PENDING"
     }
-    const requestResponse = await fetch(`${getServerUrl()}/api/requests`, {
-        method: 'POST',
+    const requestResponse = await fetch(`${getServerUrl()}/api/requests/new`, {
+        method: 'PUT',
         body: JSON.stringify(request),
         headers: {
             'Content-Type': 'application/json',

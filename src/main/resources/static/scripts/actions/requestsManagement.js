@@ -5,7 +5,7 @@ import {
 
 export async function approveRequest(fullId) {
     const id = resolveId(fullId);
-    const url = `${getServerUrl()}/api/requests/${id}?requestAction=approve`;
+    const url = `${getServerUrl()}/api/requests/update/${id}?requestAction=approve`;
     const approveRequestResponse = await fetch(url, {
         method: 'PUT',
         headers: {'X-CSRF-TOKEN': resolveCSRFToken().token}
@@ -17,7 +17,7 @@ export async function approveRequest(fullId) {
 
 export async function rejectRequest(fullId) {
     const id = resolveId(fullId);
-    const url = `${getServerUrl()}/api/requests/${id}?requestAction=reject`;
+    const url = `${getServerUrl()}/api/requests/update/${id}?requestAction=reject`;
     const rejectRequestResponse = await fetch(url, {
         method: 'PUT',
         headers: {'X-CSRF-TOKEN': resolveCSRFToken().token}

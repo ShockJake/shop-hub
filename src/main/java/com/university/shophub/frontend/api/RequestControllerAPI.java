@@ -21,13 +21,13 @@ public record RequestControllerAPI(RequestService requestService) {
         return requestService.getRequestById(id);
     }
 
-    @PostMapping
+    @PutMapping("/new")
     public Request createRequest(@RequestBody Request request) {
         log.info("Creating request: {}", request);
         return requestService.saveRequest(request);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Request updateRequest(@PathVariable String id, @RequestParam(name = "requestAction") String requestAction) {
         return requestService.mapRequestActionAndProcess(id, requestAction);
     }
