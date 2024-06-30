@@ -60,5 +60,6 @@ export async function editProduct() {
 
     if (await handleError(editionResponse))
         return
-    window.location.reload()
+
+    window.location.href = `${getServerUrl()}/p4/product/${id}/?productUpdated`
 }
