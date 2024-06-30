@@ -37,6 +37,7 @@ public class WebSecurityConfig {
                         .anyRequest().denyAll())
                 .formLogin(form -> form.loginPage("/login/")
                         .permitAll()
+                        .failureUrl(loginPrefix + "/login?error")
                         .defaultSuccessUrl(loginPrefix + "/"))
                 .logout(logout -> logout.logoutUrl("/logout/")
                         .logoutSuccessUrl(loginPrefix + "/login?logout")
