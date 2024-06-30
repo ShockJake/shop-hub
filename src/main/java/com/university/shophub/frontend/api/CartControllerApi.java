@@ -18,7 +18,13 @@ public record CartControllerApi(UserService userService, CartService cartService
 
 
     @PatchMapping("/add/{id}/")
-    public void addProducts(@PathVariable @NonNull String id, @RequestBody @NonNull AdjustProductsPayload payload, Model model, Authentication authentication) {
+    public void addProducts(@PathVariable @NonNull String id, @RequestBody @NonNull AdjustProductsPayload payload,
+                            Model model, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return;
+        }
+
+
         log.debug("Receiving cart data: {}, {}", payload.getQuantity(), id);
         final User user = userService.getUserByEmail(authentication.getName());
         cartService.addProductsToCart(user.getId(), id, payload.getQuantity());
@@ -29,7 +35,12 @@ public record CartControllerApi(UserService userService, CartService cartService
 
 
     @PatchMapping("/remove/{id}")
-    public void deleteProduct(@PathVariable @NonNull String id, @RequestBody @NonNull AdjustProductsPayload payload, Model model, Authentication authentication) {
+    public void deleteProduct(@PathVariable @NonNull String id, @RequestBody @NonNull AdjustProductsPayload payload,
+                              Model model, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return;
+        }
+
         log.debug("Deleting cart data: {}, {}", payload.getQuantity(), id);
 
         final User user = userService.getUserByEmail(authentication.getName());
