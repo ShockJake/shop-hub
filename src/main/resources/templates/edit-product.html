@@ -41,7 +41,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li th:each="category: ${categories}"><a class="dropdown-item" href="#"
                                                                  th:text="${category.name}"
-                                                                 th:href="'p4/product/categories/' + ${category.name}"></a>
+                                                                 th:href="'/p4/product/categories/' + ${category.name}"></a>
                         </li>
                     </ul>
                 </li>

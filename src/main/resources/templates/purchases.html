@@ -41,7 +41,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li th:each="category: ${categories}"><a class="dropdown-item" href="#"
                                                                  th:text="${category.name}"
-                                                                 th:href="'p4/product/categories/' + ${category.name}"></a>
+                                                                 th:href="'/p4/product/categories/' + ${category.name}"></a>
                         </li>
                     </ul>
                 </li>
@@ -138,7 +138,7 @@
 
                 <p class="pb-3 mb-0 small lh-sm border-bottom">
                     <strong class="d-block text-gray-dark">
-                        <a th:text="${purchase.getSellerName()}" th:href="'p4/seller/' + ${purchase.getSellerId()}"></a>
+                        <a th:text="${purchase.getSellerName()}" th:href="'/p4/seller/' + ${purchase.getSellerId()}"></a>
                     </strong>
                     <strong th:text="${purchase.purchaseDate.toString()}"></strong>
                     <span th:text="${{purchase.productNames}}"></span>
