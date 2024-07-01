@@ -6,6 +6,7 @@ import com.university.shophub.backend.services.*;
 import com.university.shophub.frontend.payloads.DeliveryAddressPayload;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/payment")
 public record PaymentController(WalletService walletService, CartService cartService, UserService userService,
-                                CategoryService categoryService, PurchaseService purchaseService, ShippingDetailService shippingDetailService) {
+                                CategoryService categoryService, PurchaseService purchaseService,
+                                ShippingDetailService shippingDetailService) {
+
+    @Value("${shop_hub.server.prefix}")
+    private static String serverPrefix;
 
     @GetMapping
     public String paymentPage(Model model, Authentication auth) {
@@ -41,14 +46,11 @@ public record PaymentController(WalletService walletService, CartService cartSer
         final User user = userService.getUserByEmail(auth.getName());
         List<Product> productsToBuy = cartService.getProducts(user.getId());
         walletService.manageTransaction(productsToBuy, user.getId());
-        productsToBuy.forEach(product -> {
-            cartService.deleteProductFromCart(user.getId(), product.getId());
-        });
+        productsToBuy.forEach(product -> cartService.deleteProductFromCart(user.getId(), product.getId()));
 
         purchaseService.savePurchases(productsToBuy, user);
 
         shippingDetailService.saveDetails(shippingDetails, productsToBuy, user.getId());
-        return "redirect:/p4/home";
+        return "redirect:%s/".formatted(serverPrefix);
     }
 }
-

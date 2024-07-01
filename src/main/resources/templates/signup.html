@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" th:href="@{/p4/svg/main-icon-1.svg}">
+    <link rel="icon" th:href="${@environment.getProperty('shop_hub.server.prefix')} + '/svg/main-icon-1.svg'">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up</h2>
     </div>
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-6" th:object="${user}" th:action="@{/p4/account/create/}" method="POST">
+        <form class="space-y-6" th:object="${user}" th:action="${@environment.getProperty('shop_hub.server.prefix')} + '/account/create/'" method="POST">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>

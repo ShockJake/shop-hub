@@ -1,5 +1,5 @@
 export function getServerUrl() {
-    return window.location.origin + "/p4"
+    return window.location.origin +  "serverPrefix"
 }
 
 export function resolveCSRFToken() {

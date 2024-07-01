@@ -17,7 +17,7 @@
 <body class="bg-body-tertiary" style="padding-top: 0;">
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <div class="container-fluid justify-content-end">
-        <a class="navbar-brand text-primary" th:href="@{/p4}">
+        <a class="navbar-brand text-primary" th:href="${@environment.getProperty('shop_hub.server.prefix')} + '/'">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart3"
                  viewBox="0 0 15 20">
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
@@ -42,26 +42,21 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li th:each="category: ${categories}"><a class="dropdown-item" href="#"
                                                                  th:text="${category.name}"
-                                                                 th:href="'/p4/product/categories/' + ${category.name}"></a>
+                                                                 th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/product/categories/' + ${category.name}"></a>
                         </li>
                     </ul>
                 </li>
                 <li th:if="${#authorization.expression('hasRole(''SELLER'')')}" class="nav-item">
-                    <a class="nav-link" th:href="@{/p4/product/create/new}" href="#">Sell</a>
+                    <a class="nav-link" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/product/create/new/'" href="#">Sell</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
+
             </ul>
-            <form class="d-flex justify-content-end mx-3" action="#" th:action="@{/p4/search/}" method="GET">
+            <form class="d-flex justify-content-end mx-3" action="#" th:action="${@environment.getProperty('shop_hub.server.prefix')}  + '/search/'" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <div class="d-flex justify-content-end mx-2">
-                <a class="btn btn-small btn-info" th:href="@{/p4/login}" sec:authorize="isAnonymous()">Login</a>
+                <a class="btn btn-small btn-info" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/login/'" sec:authorize="isAnonymous()">Login</a>
                 <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <button class="dropdown-toggle btn btn-small btn-info" id="accountDropdown"
                             role="button"
@@ -70,7 +65,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="accountDropdown">
                         <div class="dropdown-item">
-                            <a class="btn btn-small" href="/account">
+                            <a class="btn btn-small" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/account/'">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="blue"
                                      class="bi bi-info-circle" viewBox="0 0 15 20">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -95,7 +90,7 @@
                                 Management</a>
                         </div>
                         <hr class="dropdown-divider">
-                        <form th:action="@{/p4/logout/}" method="post">
+                        <form th:action="${@environment.getProperty('shop_hub.server.prefix')}  + '/logout/'" method="post">
                             <div class="dropdown-item">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red"
                                      class="bi bi-box-arrow-right" viewBox="0 0 15 16">
@@ -137,13 +132,13 @@
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <a th:href="'/p4/product/' + ${product.id}">
+                        <a th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/product/' + ${product.id}">
                             <img th:src="${product.imageUrl}" class="img-fluid rounded-start" alt="...">
                         </a>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <a class="link-dark" th:href="'/p4/product/' + ${product.id}">
+                            <a class="link-dark" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/product/' + ${product.id}">
                                 <h5 class="card-title" th:text="${product.name}"></h5>
                             </a>
                             <p class="card-text" th:text="${product.price} + '$'"></p>

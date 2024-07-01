@@ -12,6 +12,7 @@ import com.university.shophub.frontend.payloads.EditProductPayload;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,18 +28,19 @@ import java.util.List;
 public record ProductController(ProductService productService, CategoryService categoryService,
                                 UserService userService) {
 
+    @Value("${shop_hub.server.prefix}")
+    private static String serverPrefix;
+
     @GetMapping("/{id}")
     public String getProductById(@PathVariable @NotNull String id, Model model, Authentication authentication) {
-        boolean isOwner = false;
 
         final Product product = productService.getProductById(id);
         User seller = userService.getUserByEmail(product.getSellerName());
 
+        boolean isOwner;
         if (authentication == null) {
             isOwner = false;
-        } else if (authentication.getName().equals(seller.getEmail())) {
-            isOwner = true;
-        }
+        } else isOwner = authentication.getName().equals(seller.getEmail());
 
 
         log.trace("Found product with id {}", product);
@@ -74,7 +76,7 @@ public record ProductController(ProductService productService, CategoryService c
                                  Authentication authentication) {
         List<TechnicalDetail> technicalDetail = Streams.zip(Arrays.stream(technicalDetails), Arrays.stream(detailDescriptions), TechnicalDetail::new).toList();
         productService.addProduct(productPayload, technicalDetail, authentication.getName());
-        return "redirect:/p4/product/create/new?productCreated";
+        return "redirect:%s/product/create/new?productCreated".formatted(serverPrefix);
     }
 
     @GetMapping("/edit/{productId}")

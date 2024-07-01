@@ -5,6 +5,7 @@ import com.university.shophub.backend.services.*;
 import com.university.shophub.frontend.payloads.ChangePasswordPayload;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,13 +20,32 @@ import java.time.LocalDate;
 @Slf4j
 @Controller
 @RequestMapping("/account")
-public record AccountController(UserService userService, CategoryService categoryService, RequestService requestService,
-                                WalletService walletService, ProductService productService,
-                                PurchaseService purchaseService) {
+public class AccountController {
+
+    private final UserService userService;
+    private final CategoryService categoryService;
+    private final RequestService requestService;
+    private final WalletService walletService;
+    private final ProductService productService;
+    private final PurchaseService purchaseService;
+
+    @Value("#{systemProperties['shop_hub.server.prefix'] ?: ''}")
+    private String serverPrefix;
+
+    public AccountController(UserService userService, CategoryService categoryService, RequestService requestService,
+                             WalletService walletService, ProductService productService, PurchaseService purchaseService) {
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.requestService = requestService;
+        this.walletService = walletService;
+        this.productService = productService;
+        this.purchaseService = purchaseService;
+    }
+
     @GetMapping
     public String account(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/p4/login";
+            return "redirect:%s/login".formatted(serverPrefix);
         }
         final User user = userService.getUserByEmail(authentication.getName());
 
@@ -55,7 +75,7 @@ public record AccountController(UserService userService, CategoryService categor
     @GetMapping("/purchases")
     public String purchases(Model model, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/p4/login";
+            return "redirect:%s/login".formatted(serverPrefix);
         }
         final User user = userService.getUserByEmail(authentication.getName());
         user.setPassword("hidden");
@@ -82,7 +102,7 @@ public record AccountController(UserService userService, CategoryService categor
     public String createUser(@Valid User user, Model model) {
         try {
             userService.registerNewUser(user);
-            return "redirect:/p4/account";
+            return "redirect:%s/account".formatted(serverPrefix);
         } catch (Exception e) {
             log.error(e.getMessage());
             model.addAttribute("error", e.getMessage());
@@ -102,6 +122,6 @@ public record AccountController(UserService userService, CategoryService categor
         }
         userService.updatePassword(authentication.getName(), passwordPayload);
         authentication.setAuthenticated(false);
-        return "redirect:/p4/account";
+        return "redirect:%s/account".formatted(serverPrefix);
     }
 }
