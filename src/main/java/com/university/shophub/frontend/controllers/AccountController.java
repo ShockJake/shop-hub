@@ -29,7 +29,7 @@ public class AccountController {
     private final ProductService productService;
     private final PurchaseService purchaseService;
 
-    @Value("#{systemProperties['shop_hub.server.prefix'] ?: ''}")
+    @Value("${shop_hub.server.prefix:}")
     private String serverPrefix;
 
     public AccountController(UserService userService, CategoryService categoryService, RequestService requestService,
@@ -102,6 +102,7 @@ public class AccountController {
     public String createUser(@Valid User user, Model model) {
         try {
             userService.registerNewUser(user);
+            log.info("Redirecting: {}", "redirect:%s/account".formatted(serverPrefix));
             return "redirect:%s/account".formatted(serverPrefix);
         } catch (Exception e) {
             log.error(e.getMessage());

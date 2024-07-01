@@ -17,12 +17,26 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/payment")
-public record PaymentController(WalletService walletService, CartService cartService, UserService userService,
-                                CategoryService categoryService, PurchaseService purchaseService,
-                                ShippingDetailService shippingDetailService) {
+public class PaymentController {
+    private final WalletService walletService;
+    private final CartService cartService;
+    private final UserService userService;
+    private final CategoryService categoryService;
+    private final PurchaseService purchaseService;
+    private final ShippingDetailService shippingDetailService;
 
-    @Value("${shop_hub.server.prefix}")
-    private static String serverPrefix;
+
+    @Value("${shop_hub.server.prefix:}")
+    private String serverPrefix;
+
+    public PaymentController(WalletService walletService, CartService cartService, UserService userService, CategoryService categoryService, PurchaseService purchaseService, ShippingDetailService shippingDetailService) {
+        this.walletService = walletService;
+        this.cartService = cartService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.purchaseService = purchaseService;
+        this.shippingDetailService = shippingDetailService;
+    }
 
     @GetMapping
     public String paymentPage(Model model, Authentication auth) {
@@ -51,6 +65,8 @@ public record PaymentController(WalletService walletService, CartService cartSer
         purchaseService.savePurchases(productsToBuy, user);
 
         shippingDetailService.saveDetails(shippingDetails, productsToBuy, user.getId());
+        String redirect = "redirect:%s/".formatted(serverPrefix);
+        log.info("Redirecting to: {}", redirect);
         return "redirect:%s/".formatted(serverPrefix);
     }
 }

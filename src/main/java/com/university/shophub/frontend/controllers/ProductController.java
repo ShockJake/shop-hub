@@ -25,11 +25,20 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/product")
-public record ProductController(ProductService productService, CategoryService categoryService,
-                                UserService userService) {
+public class ProductController {
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    private final UserService userService;
 
-    @Value("${shop_hub.server.prefix}")
-    private static String serverPrefix;
+
+    @Value("${shop_hub.server.prefix:}")
+    private String serverPrefix;
+
+    public ProductController(ProductService productService, CategoryService categoryService, UserService userService) {
+        this.productService = productService;
+        this.categoryService = categoryService;
+        this.userService = userService;
+    }
 
     @GetMapping("/{id}")
     public String getProductById(@PathVariable @NotNull String id, Model model, Authentication authentication) {
