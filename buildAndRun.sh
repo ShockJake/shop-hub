@@ -17,5 +17,5 @@ mvn clean package -DskipTests=true spring-boot:repackage
 echo -e "\n - Running Application"
 nohup sudo java -jar target/shop-hub-0.0.1-SNAPSHOT.jar > shop_hub.output 2>&1 &
 pid=$!
-echo -e "\n - Application PID: ${pid}, is is saved in 'shop_hub.pid' file"
-"${pid}" > ./shop_hub.pid
+echo -e "\n - Application PID: ${pid}, it is saved in 'shop_hub.pid' file"
+echo "${pid}" > ./shop_hub.pid
