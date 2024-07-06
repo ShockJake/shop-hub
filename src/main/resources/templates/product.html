@@ -163,7 +163,7 @@
                     </div>
                     <div th:unless="${#authorization.expression('hasRole(''SELLER'')')}" class="btn-group" role="group"
                          aria-label="Default button group">
-                        <button sec:authorize="isAuthenticated()" type="submit" th:onclick="handleAddToCart([[${product.id}]])"
+                        <button th:if="${#authorization.expression('hasAnyRole(''SELLER'', ''USER'', ''ADMIN'')')}" type="submit" th:onclick="handleAddToCart([[${product.id}]])"
                                 class="btn btn-primary"
                                 id="addToCartButton">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
