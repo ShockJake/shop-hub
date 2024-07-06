@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                         .requestMatchers(privateSellerPages).hasRole("SELLER")
                         .requestMatchers(publicPages).permitAll()
                         .anyRequest().denyAll())
-                .formLogin(form -> form.loginPage("/login/")
+                .formLogin(form -> form.loginPage(loginPrefix + "/login/")
                         .permitAll()
                         .failureUrl(loginPrefix + "/login?error")
                         .defaultSuccessUrl(loginPrefix + "/"))
