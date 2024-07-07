@@ -1,7 +1,8 @@
 import {
-    addToCart,
+    addToCart, buyAndPay,
     deleteFromCart
 } from "../actions/cartActions.js";
+import {setEventListener} from "../utils/utils.js";
 
 async function handleAddToCart(productId) {
     await addToCart(productId);
@@ -10,8 +11,9 @@ async function handleAddToCart(productId) {
 
 async function handleDeleteFromCart(productId) {
     await deleteFromCart(productId);
-    alert('Product deleted from cart');
 }
+
+setEventListener('buyProductButton', buyAndPay)
 
 window.handleAddToCart = handleAddToCart;
 window.handleDeleteFromCart = handleDeleteFromCart;

@@ -14,6 +14,7 @@
     <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/account.js'" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/payment.js'" type="module"></script>
+    <link rel="icon" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/svg/main-icon-1.svg'">
 </head>
 
 <body style="padding-top: 0;" class="bg-body-tertiary d-flex flex-column min-vh-100">
@@ -34,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Shop</a>
+                    <a class="nav-link" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/'">Shop</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

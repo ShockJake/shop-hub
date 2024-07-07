@@ -3,11 +3,11 @@
 file="./src/main/resources/application.properties"
 
 function prop {
-    grep "${1}" ${file} | cut -d'=' -f2
+	grep "${1}" ${file} | cut -d'=' -f2
 }
 
 server_prefix=$(prop "shop_hub.server.prefix")
-
+server_prefix=${server_prefix::-1}
 echo -e "\n - Setting server prefix to: ${server_prefix}"
 sed -i "s|serverPrefix|${server_prefix}|" ./src/main/resources/static/scripts/utils/utils.js
 

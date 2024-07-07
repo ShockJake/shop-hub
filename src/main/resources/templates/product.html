@@ -11,6 +11,7 @@
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="${@environment.getProperty('shop_hub.server.prefix')}+'/scripts/initializers/cart.js'" type="module"></script>
+    <link rel="icon" th:href="${@environment.getProperty('shop_hub.server.prefix')}  + '/svg/main-icon-1.svg'">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -163,7 +164,7 @@
                     </div>
                     <div th:unless="${#authorization.expression('hasRole(''SELLER'')')}" class="btn-group" role="group"
                          aria-label="Default button group">
-                        <button th:if="${#authorization.expression('hasAnyRole(''SELLER'', ''USER'', ''ADMIN'')')}" type="submit" th:onclick="handleAddToCart([[${product.id}]])"
+                        <a th:if="${#authorization.expression('hasAnyRole(''SELLER'', ''USER'', ''ADMIN'')')}" href="#" th:onclick="handleAddToCart([[${product.id}]])"
                                 class="btn btn-primary"
                                 id="addToCartButton">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -171,8 +172,8 @@
                                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                             </svg>
                             Add to Cart
-                        </button>
-                        <button type="button" class="btn btn btn-secondary" id="buyProductButton">
+                        </a>
+                        <button sec:authorize="isAuthenticated()" type="button" class="btn btn btn-secondary" id="buyProductButton">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-wallet2" viewBox="0 0 16 16">
                                 <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
